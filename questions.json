@@ -40,7 +40,7 @@
       "id": "4",
       "question": "In the AWS ap-south-1 region, Alan developed an AWS console git repository called \"MyRepo\". The required credentials for cloning of the repository were configured in CodeCommit. Alan is now developing the software with a Ubuntu Linux machine. Which commands can the repository be cloned in a local directory from CodeCommit? (Choose 2)",
       "options": {
-        "A": "and D",
+        "A": "and ",
         "B": "git clone ssh://gitcodecommit. aws.com/v1/repos/MyDemoRepo my-demo-repo",
         "C": "git clone http://git-codecommit.ap-south- 1.amazonaws.com/v1/repos/MyDemoRepo my-demo-repo",
         "D": "git clone https://git-codecommit.ap-south- 1.amazonaws.com/v1/repos/MyDemoRepo my-demo-repo",
