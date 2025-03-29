@@ -1,0 +1,233 @@
+/* Mobile-first responsive design improvements */
+
+/* Base styles for all screen sizes */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Card and content spacing */
+.card-content {
+  padding: 1rem;
+}
+
+.card-header {
+  padding: 1rem 1rem 0 1rem;
+}
+
+.card-footer {
+  padding: 1rem;
+}
+
+/* Responsive typography */
+h1 {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+h2 {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+h3 {
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+}
+
+p {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+/* Button sizing for touch targets */
+.btn, button {
+  min-height: 2.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Form elements */
+input, select, textarea {
+  font-size: 1rem;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+/* Navigation improvements */
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.desktop-nav {
+  display: none;
+}
+
+/* Grid layouts */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+/* Tablet breakpoint (640px) */
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  
+  .card-content {
+    padding: 1.5rem;
+  }
+  
+  .card-header {
+    padding: 1.5rem 1.5rem 0 1.5rem;
+  }
+  
+  .card-footer {
+    padding: 1.5rem;
+  }
+  
+  h1 {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+  
+  .grid-cols-sm-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .flex-row-sm {
+    flex-direction: row;
+  }
+}
+
+/* Laptop breakpoint (768px) */
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+  
+  .mobile-nav {
+    display: none;
+  }
+  
+  .desktop-nav {
+    display: flex;
+  }
+  
+  h1 {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+  
+  .grid-cols-md-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .grid-cols-md-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Desktop breakpoint (1024px) */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+  
+  h1 {
+    font-size: 3rem;
+    line-height: 3.5rem;
+  }
+  
+  .grid-cols-lg-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Large desktop breakpoint (1280px) */
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+/* Touch-friendly improvements */
+button, 
+.btn, 
+a.btn, 
+input[type="checkbox"], 
+input[type="radio"],
+select {
+  cursor: pointer;
+}
+
+/* Improved spacing for touch targets */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Prevent text from being too small */
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Improved scrolling */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Fix for fixed positioning on mobile */
+.fixed-mobile {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  right: 0;
+}
+
+/* Improved form elements for mobile */
+input, select, textarea {
+  font-size: 16px; /* Prevents iOS zoom on focus */
+}
+
+/* Responsive tables */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Responsive images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Improved focus states for accessibility */
+a:focus, button:focus, input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Hide scrollbars on mobile while preserving functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
