@@ -34,11 +34,11 @@
         "D": "The health check is not checking the application process"
       },
       "answer": "D",
-      "explanation": "In the case of the custom health check, you can send information from your health check to Auto-scaling. So that Auto-scaling can utilize this information. For example, if you determine that an instance is not functioning as expected, you can set the health status of the instance to "Unhealthy". The next time that Auto-scaling performs a health check on the instance, it will determine that the instance is unhealthy and then launch a replacement instance."
+      "explanation": "In the case of the custom health check, you can send information from your health check to Auto-scaling. So that Auto-scaling can utilize this information. For example, if you determine that an instance is not functioning as expected, you can set the health status of the instance to \"Unhealthy\". The next time that Auto-scaling performs a health check on the instance, it will determine that the instance is unhealthy and then launch a replacement instance."
     },
     {
       "id": "4",
-      "question": "In the AWS ap-south-1 region, Alan developed an AWS console git repository called "MyRepo". The required credentials for cloning of the repository were configured in CodeCommit. Alan is now developing the software with a Ubuntu Linux machine. Which commands can the repository be cloned in a local directory from CodeCommit? (Choose 2)",
+      "question": "In the AWS ap-south-1 region, Alan developed an AWS console git repository called \"MyRepo\". The required credentials for cloning of the repository were configured in CodeCommit. Alan is now developing the software with a Ubuntu Linux machine. Which commands can the repository be cloned in a local directory from CodeCommit? (Choose 2)",
       "options": {
         "A": "git clone ssh://git-codecommit.ap-south1.amazonaws.com/v1/repos/MyDemoRepo my-demo-repo",
         "B": "git clone ssh://gitcodecommit. aws.com/v1/repos/MyDemoRepo my-demo-repo",
@@ -354,11 +354,11 @@
     },
     {
       "id": "30",
-      "question": "John runs an online store with Elastic Beanstalk. The store is based on an e-commerce open source platform and is installed in an auto-scaling group in several instances. For the online store, your development team will generate new "extensions". These extensions include both PHP source code and an SQL upgrade script to update the database schema. He has noticed that there is an error in the extension deployment when the SQL upgrade script is running. After further investigation, he realized that the SQL script is executed in all Amazon EC2 instances. Now, he has to make sure that the SQL script is only executed once per deployment regardless of instances running at that time. What can he do to achieve this?",
+      "question": "John runs an online store with Elastic Beanstalk. The store is based on an e-commerce open source platform and is installed in an auto-scaling group in several instances. For the online store, your development team will generate new \"extensions\". These extensions include both PHP source code and an SQL upgrade script to update the database schema. He has noticed that there is an error in the extension deployment when the SQL upgrade script is running. After further investigation, he realized that the SQL script is executed in all Amazon EC2 instances. Now, he has to make sure that the SQL script is only executed once per deployment regardless of instances running at that time. What can he do to achieve this?",
       "options": {
-        "A": "Make use of the Amazon EC2 metadata service to query whether the instance is marked as the leader in the Autoscaling group. Only execute the script if "true" is returned",
-        "B": "Use a "Container Command" within an Elastic Beanstalk configuration file to execute the script, ensuring that the "leader only" flag is set to true",
-        "C": "Use a "Solo Command" within an Elastic Beanstalk configuration file to execute the script. The Elastic Beanstalk service will ensure that the command is only executed once",
+        "A": "Make use of the Amazon EC2 metadata service to query whether the instance is marked as the leader in the Autoscaling group. Only execute the script if \"true\" is returned",
+        "B": "Use a \"Container Command\" within an Elastic Beanstalk configuration file to execute the script, ensuring that the \"leader only\" flag is set to true",
+        "C": "Use a \"Solo Command\" within an Elastic Beanstalk configuration file to execute the script. The Elastic Beanstalk service will ensure that the command is only executed once",
         "D": "Update the Amazon RDS security group to only allow write access from a single instance in the Auto-scaling group; that way, only one instance will successfully execute the script on the database"
       },
       "answer": "B",
@@ -436,7 +436,7 @@
         "D": "Place the credentials provided by Amazon Elastic Compute Cloud (EC2) into a secure Amazon Simple Storage Service (S3) bucket with encryption enabled. Assign AWS Identity and Access Management (IAM) users to each developer so they can download the credential file"
       },
       "answer": "B",
-      "explanation": "The file is located at "./aws/credentials" on Linux, MacOS or Unix or at "C:\\Users\\USERNAME\\aws\\credntials" on Windows. An instance profile is a container for an IAM role that you can use to pass role information to an EC2 instance when the instance starts. A private S3 bucket can be created for each developer, the keys can be stored in the bucket and then assigned to the instance profile."
+      "explanation": "The file is located at \"./aws/credentials\" on Linux, MacOS or Unix or at \"C:\\Users\\USERNAME\\aws\\credntials\" on Windows. An instance profile is a container for an IAM role that you can use to pass role information to an EC2 instance when the instance starts. A private S3 bucket can be created for each developer, the keys can be stored in the bucket and then assigned to the instance profile."
     },
     {
       "id": "37",
@@ -614,9 +614,9 @@
       "options": {
         "A": "Create a new SNS topic, which is in charge of providing customized notifications to the Slack channel",
         "B": "Use a Lambda function to pass a customized notification to the Slack channel when check status in Trusted Advisor has changed",
-        "C": "In AWS CloudWatch Logs, create a metric filter for any new logs, which contain "Check Item Refresh Status"",
+        "C": "In AWS CloudWatch Logs, create a metric filter for any new logs, which contain \"Check Item Refresh Status\"",
         "D": "In the Cost Optimization dashboard of Trusted Advisor, configure a notification to an SNS topic when the status check has found a new event",
-        "E": "Create a new CloudWatch Events rule. Add event source as "Trusted Advisor" and event type as "Check Item Refresh Status""
+        "E": "Create a new CloudWatch Events rule. Add event source as \"Trusted Advisor\" and event type as \"Check Item Refresh Status\""
       },
       "answer": "B and E",
       "explanation": "In this scenario, a new Amazon CloudWatch Events policy is the perfect way to monitor trusted advisor's check. And the target for this policy is the Lambda function that can design as per the requirement of when and how notifications are sent to the slack channel. Here, CloudWatch events are the best tool for monitoring the changes in Trusted Advisor."
@@ -680,7 +680,7 @@
         "E": "CodeDeployDefault.LambdaLinear10PercentEvery10Minutes (Shifts 10 percent of traffic every 10 minutes)"
       },
       "answer": "A, C and E",
-      "explanation": "When the AWS CodeDeploy deployment group is created, users must adjust the rules for determining how quickly an application will be deployed which is also referred to as the "Deployment configuration". Options A, C, and E are correct because Canary is supported for shifting 10% of traffic at first then the remaining will be shifted, Lambda AttatOnce option is also best as it shifts all traffic at a time. With Linear, you can shift the traffic between each increase in equal amounts with an equal number of minutes. You can choose from linear options that specify how much traffic has shifted in every increase and how many minutes each increase takes."
+      "explanation": "When the AWS CodeDeploy deployment group is created, users must adjust the rules for determining how quickly an application will be deployed which is also referred to as the \"Deployment configuration\". Options A, C, and E are correct because Canary is supported for shifting 10% of traffic at first then the remaining will be shifted, Lambda AttatOnce option is also best as it shifts all traffic at a time. With Linear, you can shift the traffic between each increase in equal amounts with an equal number of minutes. You can choose from linear options that specify how much traffic has shifted in every increase and how many minutes each increase takes."
     },
     {
       "id": "57",
@@ -741,7 +741,7 @@
         "D": "The HTTP health checking system is misreporting due to latency in inter-instance metadata synchronization"
       },
       "answer": "C",
-      "explanation": "The custom health check is used to evaluate the functionality of the application. If the application functionality is not working and you do not have custom health checks, the instances will still be seemed as healthy. You can send the data from your health checks to Auto-scaling if you have custom health checks, so Auto-scaling can use this data. For example, you can set the health status of the instance to "unhealthy" if you determine that the situation is not working as expected. The next time Auto-scaling conducts an instance health check, the instance will be unhealthy and a replacement instance will be launched."
+      "explanation": "The custom health check is used to evaluate the functionality of the application. If the application functionality is not working and you do not have custom health checks, the instances will still be seemed as healthy. You can send the data from your health checks to Auto-scaling if you have custom health checks, so Auto-scaling can use this data. For example, you can set the health status of the instance to \"unhealthy\" if you determine that the situation is not working as expected. The next time Auto-scaling conducts an instance health check, the instance will be unhealthy and a replacement instance will be launched."
     },
     {
       "id": "62",
@@ -774,7 +774,7 @@
         "A": "Create an AWS CloudFormation template, which creates an instance with the AWS::EC2::Instance resource type and an AMI with Docker pre-installed. With UserData, install Git to download the Node.js application and then set it up",
         "B": "Create a Docker file to install Node.js and gets the code from Git. Use the Dockerfile to perform the deployment on a new AWS Elastic Beanstalk application",
         "C": "Create an AWS CloudFormation template, which creates an instance with the AWS::EC2::Container resources type. With UserData, install Git to download the Node.js application and then set it up",
-        "D": "Create an Elastic Beanstalk application. Create a Docker file to install Node.js. Get the code from Git. Use the command "aws git.push" to deploy the application"
+        "D": "Create an Elastic Beanstalk application. Create a Docker file to install Node.js. Get the code from Git. Use the command \"aws git.push\" to deploy the application"
       },
       "answer": "A and B",
       "explanation": "During the launch of the instance, you can automate the configuration tasks and script runs on an instance by passing user data. You can pass two types of user data to Amazon EC2: shell scripts and cloud-init directives. You can also pass this data into the launch wizard as plain text, as a file (this is useful for launching instances using the command line tools), or as base64-encoded text (for API calls). Elastic Beanstalk supports the use of Docker container web applications. You can create your own runtime environment with Docker containers. You can choose your own platform, programming language and any software dependencies that are not provided by other systems such as package managers or tools. Dockers are independent and include all the settings and software your web application needs to run. Dockers are free of charge. So using the CloudFormation template to create an instance with pre-installed Docker AMI is a good option. You can also use Docker container with Elastic Beanstalk. In a container, you define all requirements and use this container with Elastic Beanstalk to deploy an application."
@@ -787,7 +787,7 @@
         "B": "Update stack using ChangeSets",
         "C": "In the AWS CloudFormation Template, set the AWS::RDS::DB instances class property to be read-only",
         "D": "Use an AWS CloudFormation stack policy to deny updates to the instance",
-        "E": "Subscribe to the AWS CloudFormation notification "BeforeResourceUpdate", and call CancelStackUpdate if the resources identified are the Amazon RDS instance"
+        "E": "Subscribe to the AWS CloudFormation notification \"BeforeResourceUpdate\", and call CancelStackUpdate if the resources identified are the Amazon RDS instance"
       },
       "answer": "D",
       "explanation": "By default, when you create a stack, all update actions are allowed. So any one can perform updates on the stack's resources. In order to avoid any accidental delete or update of any resource in the stack, you need to use Stack Policy. It is a JSON document in which you defined a specific resource, you can perform update action by explicitly defining the ALLOW permission. When you use Stack policy, it protects all resources in the stack by default. Only one stack policy can be defined per stack and it only applies during an update of stack."
@@ -825,7 +825,7 @@
         "C": "Write a script that is configured to be executed when the instance is stopped or terminated and that will upload any remaining logs on the instance to Amazon S3",
         "D": "Create an Amazon S3 lifecycle configuration to move log files from Amazon S3 to Amazon Glacier after seven days",
         "E": "Configure your application to write logs to the instance's default Amazon EBS boot volume, because this storage already exists. Create a script that moves the logs from the instance to Amazon S3 once an hour",
-        "F": "Configure your application to write logs to a separate Amazon EBS volume with the "delete or termination" field set to false. Create a script that moves the logs from the instance to Amazon S3 once an hour Answer: A, D, and F Explanation: The glacier is the best option because all logs must be stored indefinitely. The data can be streamed from S3 to Glacier with Lifecycle events. You can specify the lifecycle management of objects inside a bucket by configuring a lifecycle. The configuration is a set of rules that define an Amazon S3 action for a group of objects in each rule. We can use a cost-effective EC2 instance to ensure the minimum memory requirements for the OS and script execution. In this case, a t2.micro instance can be used, taking into account the computing resource requirements of the instance and the cost factor. The EC2 uses the EBS volumes, and the logs are stored in EBS volumes marked for non-termination. It is one of the ways to fulfill the requirement. 69. A company wants to make easier deployment and reduce the time taken by the deployment for the improvement of deployment as they deploy five times a week at max. They hired you as the DevOps engineer to create a CI pipeline that can build AMIs. How will you do this? A. By having the CI system launch a new instance, then bootstrapping the code and dependencies on that instance, and creating an AMI using the CreateImage API call B. By using OpsWorks to launch an EBS-backed instance, then using a recipe to bootstrap the instance, and then having the CI system use the CreateImage API call to make an AMI from it C. By using a dedicated EC2 instance with an EBS Volume, then downloading and configuring the code, and creating an AMI out of that D. By uploading the code and dependencies to Amazon S3, launching an instance, downloading the package from Amazon S3, then creating the AMI with the CreateSnapshot API call"
+        "F": "Configure your application to write logs to a separate Amazon EBS volume with the \"delete or termination\" field set to false. Create a script that moves the logs from the instance to Amazon S3 once an hour Answer: A, D, and F Explanation: The glacier is the best option because all logs must be stored indefinitely. The data can be streamed from S3 to Glacier with Lifecycle events. You can specify the lifecycle management of objects inside a bucket by configuring a lifecycle. The configuration is a set of rules that define an Amazon S3 action for a group of objects in each rule. We can use a cost-effective EC2 instance to ensure the minimum memory requirements for the OS and script execution. In this case, a t2.micro instance can be used, taking into account the computing resource requirements of the instance and the cost factor. The EC2 uses the EBS volumes, and the logs are stored in EBS volumes marked for non-termination. It is one of the ways to fulfill the requirement. 69. A company wants to make easier deployment and reduce the time taken by the deployment for the improvement of deployment as they deploy five times a week at max. They hired you as the DevOps engineer to create a CI pipeline that can build AMIs. How will you do this? A. By having the CI system launch a new instance, then bootstrapping the code and dependencies on that instance, and creating an AMI using the CreateImage API call B. By using OpsWorks to launch an EBS-backed instance, then using a recipe to bootstrap the instance, and then having the CI system use the CreateImage API call to make an AMI from it C. By using a dedicated EC2 instance with an EBS Volume, then downloading and configuring the code, and creating an AMI out of that D. By uploading the code and dependencies to Amazon S3, launching an instance, downloading the package from Amazon S3, then creating the AMI with the CreateSnapshot API call"
       },
       "answer": "A",
       "explanation": "As the number of calls for deployment is less, open sources like Jenkins can be used for CI-based systems. It is used as an automation server and as a simple CI. For using the CI system to launch the instance and for user data, define bootstrap code and then create AMI by using CreateImage API."
@@ -908,7 +908,7 @@
       "question": "You have just joined an IT company to take responsibility for the management of AWS resources with another DevOps engineer. After a while, you find that an Elastic Load Balancer health check timer needs to be changed. The ELB was set up a year ago with Autoscaling settings and you can find the CloudFormation template for this setup, which is in a CodeCommit repository. During the year, such configurations can be highly altered by somebody. However, the modification details for the CloudFormation stack are not recorded. What are you supposed to do to update the ELB health check timer?",
       "options": {
         "A": "Edit the template properly with the new ELB health check timer. Create a Change Set for the CloudFormation stack using the new template. If the Change Set is ok, execute the Change Set",
-        "B": "Use "Detect drift" to understand the changes since the stack was created. Update the template accordingly together with the new health check timer and submit the new code to CodeCommit. Update the stack using the new template",
+        "B": "Use \"Detect drift\" to understand the changes since the stack was created. Update the template accordingly together with the new health check timer and submit the new code to CodeCommit. Update the stack using the new template",
         "C": "Modify the template with the new Elastic Load Balancer health check timer. Update the stack using the new template. Submit the new template to the CodeCommit repository",
         "D": "Delete the CloudFormation stack since the changes in the stack are not tracked in git. Rewrite the CloudFormation template with the new health check timer and create a new CloudFormation stack using the new template. Commit the code changes to CodeCommit repository."
       },
@@ -1032,13 +1032,13 @@
       "id": "85",
       "question": "An enterprise has a hybrid network consisting of multiple EC2 instances and Raspberry Pi devices. In order to manage all servers like patching strategy on both cloud and an on-premises environment, the enterprise plans to use AWS System Manager. The agents are also installed on all servers. Now, it wants to identify which server is the Raspberry Pi server from the Managed Instances Console. Which feature of the Raspberry Pi distinguishes it from others?",
       "options": {
-        "A": "The machines prefixed with "i-" are Raspberry Pi devices",
+        "A": "The machines prefixed with \"i-\" are Raspberry Pi devices",
         "B": "The Raspberry Pi instances have the IP addresses that are not within the VPC IP range",
-        "C": "The machines prefixed with "mi-" are Raspberry Pi devices",
+        "C": "The machines prefixed with \"mi-\" are Raspberry Pi devices",
         "D": "The machines that have the platform name as CentOS Linux are Raspberry Pi devices"
       },
       "answer": "C",
-      "explanation": "Within a hybrid environment, the AWS Systems Administrator will configure EC2 instances or on-site servers. Support is provided for various Linux distributions, including Raspberry Pi devices and Microsoft Windows Server. As the "mi-" suffix is for hybrid instances, the suffix "i-" is for the Amazon EC2 instances."
+      "explanation": "Within a hybrid environment, the AWS Systems Administrator will configure EC2 instances or on-site servers. Support is provided for various Linux distributions, including Raspberry Pi devices and Microsoft Windows Server. As the \"mi-\" suffix is for hybrid instances, the suffix \"i-\" is for the Amazon EC2 instances."
     },
     {
       "id": "86",
@@ -1107,21 +1107,21 @@
       "question": "The Docker Containers for a Java Application is controlled by AWS ECS within your business. Several important features have recently been developed to satisfy the market requirements and the team is under pressure to deliver new releases. When the ECS role comes into stopped status, the manager asks you to alert the team both on the slack channel and email so that the relevant staff can take immediate action. What is the best way for you to do this?",
       "options": {
         "A": "Configure the ECS cluster instances to send log files in /var/log/docker/ to CloudWatch Logs. Create a Metric Filter to search for the keyword \u201cSTOPPED\u201d. Create an alarm to trigger an SNS notification whenever there is a match. Subscribe a Lambda function to the SNS topic, which sends a message to the Slack channel and email list",
-        "B": "Create a CloudWatch Event rule as below. Use a Lambda function as the target to send notifications to both the Slack channel and the relevant email list. { "source": [</p> "aws.ecs"</p> ], "detail-type": [ "ECS Container Instance State Change" ] "detail": { "desireStatus": [ "STOPPED" ] } }",
+        "B": "Create a CloudWatch Event rule as below. Use a Lambda function as the target to send notifications to both the Slack channel and the relevant email list. { \"source\": [</p> \"aws.ecs\"</p> ], \"detail-type\": [ \"ECS Container Instance State Change\" ] \"detail\": { \"desireStatus\": [ \"STOPPED\" ] } }",
         "C": "Configure the ECS cluster instances to send log files in /var/log/ecs/ to CloudWatch Logs. Create a Metric Filter to search for the keyword \u201cSTOPPED\u201d. Create an alarm to trigger a Lambda function whenever there is a match. The Lambda function sends customised notifications to the Slack channel and email list",
-        "D": "Create the following CloudWatch Event rule. Add a target of Lambda function to send a notification in Slack and another target of SNS to send the email. { "source": [</p> "aws.ecs"</p> ], "detail-type": [ "ECS Task State Change" ] "detail": { "lastStatus": [ "STOPPED" ] } }"
+        "D": "Create the following CloudWatch Event rule. Add a target of Lambda function to send a notification in Slack and another target of SNS to send the email. { \"source\": [</p> \"aws.ecs\"</p> ], \"detail-type\": [ \"ECS Task State Change\" ] \"detail\": { \"lastStatus\": [ \"STOPPED\" ] } }"
       },
       "answer": "D",
-      "explanation": "In order to provide immediate notification, you can integrate Amazon ECS with CloudWatch events. Once ECS reaches the "STOPPED" state, the rule will immediately trigger the targets (Lambda and SNS) with this CloudWatch Event rule."
+      "explanation": "In order to provide immediate notification, you can integrate Amazon ECS with CloudWatch events. Once ECS reaches the \"STOPPED\" state, the rule will immediately trigger the targets (Lambda and SNS) with this CloudWatch Event rule."
     },
     {
       "id": "92",
-      "question": "Phillip is using AWS Systems Manager to maintain EC2 instances. For example, for instances with a tag of "QA", you can run command to execute a shellscript. However, you want to limit the utilization of the "Run Command" feature for certain IAM users on security issues. For these specific users, you need an IAM policy to only allow them to run command for instances that have the "department" tag of "dev1" or "dev2". Which IAM policy can help you to achieve this requirement?",
+      "question": "Phillip is using AWS Systems Manager to maintain EC2 instances. For example, for instances with a tag of \"QA\", you can run command to execute a shellscript. However, you want to limit the utilization of the \"Run Command\" feature for certain IAM users on security issues. For these specific users, you need an IAM policy to only allow them to run command for instances that have the \"department\" tag of \"dev1\" or \"dev2\". Which IAM policy can help you to achieve this requirement?",
       "options": {
-        "A": "{ "Version":"2012-10-17", "Statement":[ { "Effect":"Allow", "Action":[ "ssm:SendCommand" ], "Resource":"*", "Condition":{ "StringLike":{ "ssm:resourceTag/department":[ "dev1" ] "ssm:resourceTag/department":[ "dev2" ] } } } ] }",
-        "B": "{ "Version":"2012-10-17", "Statement":[ { "Effect":"Allow", "Action":[ "ssm:RunCommand" ], "Resource":"*", "Condition":{ "StringLike":{ "ssm:resourceTag/department":[ "dev1" ] "ssm:resourceTag/department":[ "dev2" ] } } } ] }",
-        "C": "{ "Version":"2012-10-17", "Statement":[ { "Effect":"Allow", "Action":[ "*" ], "Resource":"*", "Condition":{ "StringLike":{ "ssm:resourceTag/department":[ "dev1" ] "ssm:resourceTag/department":[ "dev2" ] } } } ] }",
-        "D": "{ "Version":"2012-10-17", "Statement":[ { "Effect":"Allow", "Action":[ "ssm:SendCommand" ], "Resource":"*", "Condition":{ "StringNotEquals":{ "ssm:resourceTag/department":[ "dev1", "dev2" ] } } } ] }"
+        "A": "{ \"Version\":\"2012-10-17\", \"Statement\":[ { \"Effect\":\"Allow\", \"Action\":[ \"ssm:SendCommand\" ], \"Resource\":\"*\", \"Condition\":{ \"StringLike\":{ \"ssm:resourceTag/department\":[ \"dev1\" ] \"ssm:resourceTag/department\":[ \"dev2\" ] } } } ] }",
+        "B": "{ \"Version\":\"2012-10-17\", \"Statement\":[ { \"Effect\":\"Allow\", \"Action\":[ \"ssm:RunCommand\" ], \"Resource\":\"*\", \"Condition\":{ \"StringLike\":{ \"ssm:resourceTag/department\":[ \"dev1\" ] \"ssm:resourceTag/department\":[ \"dev2\" ] } } } ] }",
+        "C": "{ \"Version\":\"2012-10-17\", \"Statement\":[ { \"Effect\":\"Allow\", \"Action\":[ \"*\" ], \"Resource\":\"*\", \"Condition\":{ \"StringLike\":{ \"ssm:resourceTag/department\":[ \"dev1\" ] \"ssm:resourceTag/department\":[ \"dev2\" ] } } } ] }",
+        "D": "{ \"Version\":\"2012-10-17\", \"Statement\":[ { \"Effect\":\"Allow\", \"Action\":[ \"ssm:SendCommand\" ], \"Resource\":\"*\", \"Condition\":{ \"StringNotEquals\":{ \"ssm:resourceTag/department\":[ \"dev1\", \"dev2\" ] } } } ] }"
       },
       "answer": "A",
       "explanation": "If the Systems Manager Run Command needs a restriction, the best practice is to develop the appropriate IAM policy for IAM users and groups. Option A allows only tags 1 and 2 to run the command."
@@ -1155,13 +1155,13 @@
       "id": "95",
       "question": "Arthur has a large number of AWS accounts that are managed by him. Some AWS accounts belong to AWS Organization and some do not. When there is a new EC2 termination event for any other account, it is necessary to set up the CloudWatch rule in the master account. In each account, you plan to set a CloudWatch Events rule, and send the event to the master account in the default Event Bus. What is NOT the solution to work with in this requirement?",
       "options": {
-        "A": "In CloudWatch Events, in order to send the event to the master account, the target should be configured as "Event bus in another AWS account"",
+        "A": "In CloudWatch Events, in order to send the event to the master account, the target should be configured as \"Event bus in another AWS account\"",
         "B": "A proper IAM role is needed for the sender account to send events to the Event bus in the master account",
         "C": "All accounts should belong to certain AWS Organizations",
         "D": "A master account should permit the CloudWatch events to be received from other accounts"
       },
       "answer": "C",
-      "explanation": "The CloudWatch Event Bus is a helpful service in order to send / receive CloudWatch events to / from other AWS accounts. For that, you need permission from the master account for events to be received. For CloudWatch Events to submit the event, the sender must have a suitable IAM role. We also need to configure the target as an "Event bus in another AWS account" in order to send the event to another account's default Event bus."
+      "explanation": "The CloudWatch Event Bus is a helpful service in order to send / receive CloudWatch events to / from other AWS accounts. For that, you need permission from the master account for events to be received. For CloudWatch Events to submit the event, the sender must have a suitable IAM role. We also need to configure the target as an \"Event bus in another AWS account\" in order to send the event to another account's default Event bus."
     },
     {
       "id": "96",
@@ -1182,7 +1182,7 @@
       "options": {
         "A": "Use the Systems Manager session manager to configure the patching for EC2 instances. Apply required patches accordingly after you remotely login into the server",
         "B": "Use a pre-defined default Patch Baseline. Add tags of dev, test, and production to relevant EC2 instances. Associate the Patch Baseline with EC2 instances via tags",
-        "C": "Tag the instances using dev, test, and production. In Systems Manager, run the command of "AWS-InstallPatches" based on the tags",
+        "C": "Tag the instances using dev, test, and production. In Systems Manager, run the command of \"AWS-InstallPatches\" based on the tags",
         "D": "Create a customized Patch Baseline. Create several Patch Groups for dev, test, and production instances. Associate the Patch Groups with the new Patch Baseline. Schedule the patching in a maintenance window as required"
       },
       "answer": "D",
@@ -1190,7 +1190,7 @@
     },
     {
       "id": "98",
-      "question": "A CloudFormation stack has included several AWS resources including EC2 instances. In the past, AMI ID management for different regions and instance types was done via a mapping table. The AMI ID is obtained in the function "Fn::FindInMap" during the creation of the EC2 resource. In this method, however, if a new AMI ID is available, the mapping table must be updated. You look for better ways to get your updated AMIs automatically. You already have a Lambda feature, which can obtain the latest AMI with the input as a region and instance type. How can the Lambda function best be used in order to achieve this?",
+      "question": "A CloudFormation stack has included several AWS resources including EC2 instances. In the past, AMI ID management for different regions and instance types was done via a mapping table. The AMI ID is obtained in the function \"Fn::FindInMap\" during the creation of the EC2 resource. In this method, however, if a new AMI ID is available, the mapping table must be updated. You look for better ways to get your updated AMIs automatically. You already have a Lambda feature, which can obtain the latest AMI with the input as a region and instance type. How can the Lambda function best be used in order to achieve this?",
       "options": {
         "A": "Manually trigger the Lambda function and store its output in the Systems Manager Parameter Store. Modify the CloudFormation template to get the latest AMI ID from the Parameter store",
         "B": "Create a Custom resource in the CloudFormation template. In its RequestId property, specify the name of the Lambda function to associate it with the Custom resource",
@@ -1276,7 +1276,7 @@
     },
     {
       "id": "105",
-      "question": "An application is deployed in an AWS Auto-scaling group in a financial company. The request traffic is most often quite smooth and the ASG is not scaled in or out. But EC2 instances may fail the Elastic Load Balancer health check, and then be terminated by ASG, as per the latest release. In order to access the instance and solve the problem, the development team has created an ASG life-cycle hook. After the instance, which AWS services can be configured to automatically receive notification in the "Terminating: Wait" state? (Choose 2)",
+      "question": "An application is deployed in an AWS Auto-scaling group in a financial company. The request traffic is most often quite smooth and the ASG is not scaled in or out. But EC2 instances may fail the Elastic Load Balancer health check, and then be terminated by ASG, as per the latest release. In order to access the instance and solve the problem, the development team has created an ASG life-cycle hook. After the instance, which AWS services can be configured to automatically receive notification in the \"Terminating: Wait\" state? (Choose 2)",
       "options": {
         "A": "AWS CloudWatch Events",
         "B": "AWS CloudWatch Alarms",
@@ -1529,7 +1529,7 @@
         "E": "All EC2 instances should have AWS CLI commands preinstalled"
       },
       "answer": "A and C",
-      "explanation": "Amazon Inspector is an AWS tool that uses AWS-managed rule packages to perform a security analysis of Amazon EC2 instances. The AWS Inspector agents must be installed first in order for AWS Inspectors to work correctly. You can also select the "Install Agents" option so that the agents are automatically installed. In order to install Inspector agent, SSM Run command is used. For that, IAM role is needed at EC2 instance and all instances must have AWS CLI command pre-installed."
+      "explanation": "Amazon Inspector is an AWS tool that uses AWS-managed rule packages to perform a security analysis of Amazon EC2 instances. The AWS Inspector agents must be installed first in order for AWS Inspectors to work correctly. You can also select the \"Install Agents\" option so that the agents are automatically installed. In order to install Inspector agent, SSM Run command is used. For that, IAM role is needed at EC2 instance and all instances must have AWS CLI command pre-installed."
     },
     {
       "id": "126",
@@ -1594,12 +1594,12 @@
     },
     {
       "id": "131",
-      "question": "The app is installed in EC2 and sends AWS CloudWatch with customized metrics. Based on these metric report data, you have configured many AWS CloudWatch alarms. You find that sometimes there are numerous warnings of CloudWatch with the status of "INSUFFICIENT DATA". With your team of developers, you have agreed that some metric data are only produced intermittently by design. What should you do to ignore these warnings of "INSUFFICIENT DATA"?",
+      "question": "The app is installed in EC2 and sends AWS CloudWatch with customized metrics. Based on these metric report data, you have configured many AWS CloudWatch alarms. You find that sometimes there are numerous warnings of CloudWatch with the status of \"INSUFFICIENT DATA\". With your team of developers, you have agreed that some metric data are only produced intermittently by design. What should you do to ignore these warnings of \"INSUFFICIENT DATA\"?",
       "options": {
-        "A": "Create a CloudWatch Event. When an "INSUFFICIENT_DATA" CloudWatch alarm appears, use an SNS to notify the team to react accordingly",
-        "B": "Create a Lambda function, which calls CloudWatch Alarm API to check the reason for "INSUFFICIENT_DATA" and modify the alarm state to "OK" if there is no data received from EC2 instance during that time",
-        "C": "Configure the CloudWatch alarms to change the state of "INSUFFICIENT_DATA" to "OK" after 5 minutes",
-        "D": "Configure these CloudWatch alarms to treat missing data points as "ignore" so that "INSUFFICIENT_DATA" does not show up"
+        "A": "Create a CloudWatch Event. When an \"INSUFFICIENT_DATA\" CloudWatch alarm appears, use an SNS to notify the team to react accordingly",
+        "B": "Create a Lambda function, which calls CloudWatch Alarm API to check the reason for \"INSUFFICIENT_DATA\" and modify the alarm state to \"OK\" if there is no data received from EC2 instance during that time",
+        "C": "Configure the CloudWatch alarms to change the state of \"INSUFFICIENT_DATA\" to \"OK\" after 5 minutes",
+        "D": "Configure these CloudWatch alarms to treat missing data points as \"ignore\" so that \"INSUFFICIENT_DATA\" does not show up"
       },
       "answer": "D",
       "explanation": "If you configure the missing data as ignore, then that data does not cause INSUFFICIENT_DATA alarm."
@@ -1608,10 +1608,10 @@
       "id": "132",
       "question": "For a new application, Daniel has created a new Auto-scaling group that sets the minimum capacity to 1 and the maximum capacity to 20. ASG has been running smoothly for two weeks, though some instances have not been successfully resolved recently. If an instance fails to terminate, Daniel must work out a way that notifies his team via email. What is the easiest way to do that?",
       "options": {
-        "A": "Create a CloudWatch alarm based on the metric of "Terminate Failed". Send a notification to an SNS topic when the alarm state is "ALARM"",
+        "A": "Create a CloudWatch alarm based on the metric of \"Terminate Failed\". Send a notification to an SNS topic when the alarm state is \"ALARM\"",
         "B": "Configure the Auto-scaling group to send a notification to an SNS topic whenever instances fail to terminate",
         "C": "Configure the related Auto-scaling configuration to send a notification to an SNS topic whenever instances fail to terminate",
-        "D": "Create a CloudWatch Event. When an event of "Terminate Unsuccessful" happens, invoke a Lambda function to notify the team"
+        "D": "Create a CloudWatch Event. When an event of \"Terminate Unsuccessful\" happens, invoke a Lambda function to notify the team"
       },
       "answer": "B",
       "explanation": "With ASG, you can configure AWS SNS to send a notification whenever scaling is performed. You can configure SNS topic whenever instances fail to terminate via ASG console."
@@ -1620,9 +1620,9 @@
       "id": "133",
       "question": "There is a Java program, which deploys an Auto-scaling group in AWS with EC2 instances that are m5.large type instances. The application's response time has recently been increased due to several new functions because of the high rate of use of the CPU. To resolve this issue, you must change the EC2 instance form to c5.large. What is the best way to do so?",
       "options": {
-        "A": "Select the Auto-scaling launch configuration and choose "Actions -&gt; Change Instance Type". Modify the instance type to c5.large accordingly",
-        "B": "In AWS EC2 console, stop the EC2 instances, modify the instance type to c5.large in "Instance Settings -&gt; Change Instance Type" and then start the instances",
-        "C": "Select the relevant launch configuration and choose "Actions &gt; Copy launch configuration". Modify the instance type accordingly in the new configuration. Select the new launch configuration for the Auto-scaling group",
+        "A": "Select the Auto-scaling launch configuration and choose \"Actions -&gt; Change Instance Type\". Modify the instance type to c5.large accordingly",
+        "B": "In AWS EC2 console, stop the EC2 instances, modify the instance type to c5.large in \"Instance Settings -&gt; Change Instance Type\" and then start the instances",
+        "C": "Select the relevant launch configuration and choose \"Actions &gt; Copy launch configuration\". Modify the instance type accordingly in the new configuration. Select the new launch configuration for the Auto-scaling group",
         "D": "In AWS console, edit the Auto-scaling group by modifying the instance type from m5.large to c5.large"
       },
       "answer": "C",
@@ -1678,7 +1678,7 @@
     },
     {
       "id": "138",
-      "question": "George has created a DynamoDB table called "Global Temperature" to monitor the highest/lowest temperatures in many cities of different countries. The things in the table had a partition key (CountryId) listed and there was no sort key. Recently, more features have been created and some queries need to be conducted based on a new partition key (CityId). How can George do this?",
+      "question": "George has created a DynamoDB table called \"Global Temperature\" to monitor the highest/lowest temperatures in many cities of different countries. The things in the table had a partition key (CountryId) listed and there was no sort key. Recently, more features have been created and some queries need to be conducted based on a new partition key (CityId). How can George do this?",
       "options": {
         "A": "By adding a Global Secondary Index with a partition key as CityId and a sort key as HighestTemperature",
         "B": "By adding a Global Secondary Index with partition key as CityId and another Global Secondary Index with partition key as HighestTemperature. Because the primary index only uses a simple primary key (partition key), the Secondary Index can only have one partition key as well",
@@ -1694,7 +1694,7 @@
       "options": {
         "A": "There is no way to share snapshots to another account for automated ones",
         "B": "Create a manual snapshot for the RDS database and make sure that it is encrypted. Then share the encrypted snapshot to another account via AWS console or CLI",
-        "C": "Select the automated snapshot in the AWS console. Share the snapshot by "Actions -> Share Snapshot"",
+        "C": "Select the automated snapshot in the AWS console. Share the snapshot by \"Actions -> Share Snapshot\"",
         "D": "Firstly, make a copy of the automated snapshot to turn it into a manual version. Then share the copy with the other AWS accounts"
       },
       "answer": "D",
@@ -1758,7 +1758,7 @@
         "D": "Model your stack in one template, so you can leverage CloudFormation's state management and dependency resolution to propagate all changes"
       },
       "answer": "D",
-      "explanation": "CloudFormation's best practices are "created a nested stack" and "re-use templates". When your infrastructure is growing, common patterns emerge in each template, where you declare the same components. You can separately create templates for these common components. Thus, you can mix and match the various templates, but you can create a single unified stack using nested stacks. Stacks that are nested are stacks that create additional stacks. Use AWS::CloudFormation::Stackresource to link other templates in your template to build nested stacks. You can reuse your templates to replicate your infrastructure in several environments after you have established your stacks and resources."
+      "explanation": "CloudFormation's best practices are \"created a nested stack\" and \"re-use templates\". When your infrastructure is growing, common patterns emerge in each template, where you declare the same components. You can separately create templates for these common components. Thus, you can mix and match the various templates, but you can create a single unified stack using nested stacks. Stacks that are nested are stacks that create additional stacks. Use AWS::CloudFormation::Stackresource to link other templates in your template to build nested stacks. You can reuse your templates to replicate your infrastructure in several environments after you have established your stacks and resources."
     },
     {
       "id": "145",
@@ -1837,23 +1837,23 @@
       "id": "151",
       "question": "Louis has used AWS CodeDeploy to deploy the latest software release to several AWS EC2 instances. In this CodeDeploy application, there are two Deployment groups called Stage and Prod. At the moment, the only difference between Stage and Prod is the logging level, which can be configured in a file. What is the most efficient way to implement the different logging levels for the two Deployment groups?",
       "options": {
-        "A": "Create two script files. One version has its logging level setting for "Stage". And the other one has its logging level setting for "Prod". Modify the Deployment Group configurations to use the correct script file",
+        "A": "Create two script files. One version has its logging level setting for \"Stage\". And the other one has its logging level setting for \"Prod\". Modify the Deployment Group configurations to use the correct script file",
         "B": "In the hook script file, use the environment variable DEPLOYMENT_ID to determine, which Deployment Group it is. Then modify the logging level accordingly in the script",
         "C": "For the script file in BeforeInstall hook, use the environment variable DEPLOYMENT_GROUP_NAME to determine the Deployment Group. Then modify the logging level accordingly in the script",
-        "D": "Create two source versions of script files in BeforeInstall hook. One version has its logging level setting for Deployment Group "Stage". And the other one has its logging level setting for "Prod". Choose the relevant source files when creating a new deployment"
+        "D": "Create two source versions of script files in BeforeInstall hook. One version has its logging level setting for Deployment Group \"Stage\". And the other one has its logging level setting for \"Prod\". Choose the relevant source files when creating a new deployment"
       },
       "answer": "C",
-      "explanation": "Since the only difference between deployment groups is the logging level, the environment variable to decide the deployment group should use the same number of source files. Because the environment parameter to evaluate the Deployment Group is DEPLOYMENT GROUP NAME, in the script file, the following code can be used: [ "$DEPLOYMENT_GROUP_NAME" == "Staging" ] After this, modify the logging level for Staging Deployment Group."
+      "explanation": "Since the only difference between deployment groups is the logging level, the environment variable to decide the deployment group should use the same number of source files. Because the environment parameter to evaluate the Deployment Group is DEPLOYMENT GROUP NAME, in the script file, the following code can be used: [ \"$DEPLOYMENT_GROUP_NAME\" == \"Staging\" ] After this, modify the logging level for Staging Deployment Group."
     },
     {
       "id": "152",
       "question": "The company you work for recently began using the AWS system and used a basic support package for its AWS account. As AWS resources are limited, your director requested to develop a solution to alert him to the low utilization rate of EC2 assets. You intend to use AWS CloudWatch Events to define the lambda feature as the target for these tools. The Lambda feature can provide the director with personalized text. How are you to combine these two choices to fulfill your requirements? (Choose 2)",
       "options": {
-        "A": "Create a new CloudWatch Events rule with the event source as a Trusted Advisor. The event type is "Check Item Refresh Status". Select the Lambda function as the target",
-        "B": "Create a CloudWatch rule with the event source as a Trusted Advisor. The event type is "All Events". Select the Lambda function as the target",
-        "C": "Upgrade the AWS account support plan to "Business" to access all Trusted Advisor checks",
-        "D": "Upgrade the AWS account support plan to "Developer" to access all Trusted Advisor features",
-        "E": "Upgrade the AWS account support plan to "Enterprise" to activate all cost related features"
+        "A": "Create a new CloudWatch Events rule with the event source as a Trusted Advisor. The event type is \"Check Item Refresh Status\". Select the Lambda function as the target",
+        "B": "Create a CloudWatch rule with the event source as a Trusted Advisor. The event type is \"All Events\". Select the Lambda function as the target",
+        "C": "Upgrade the AWS account support plan to \"Business\" to access all Trusted Advisor checks",
+        "D": "Upgrade the AWS account support plan to \"Developer\" to access all Trusted Advisor features",
+        "E": "Upgrade the AWS account support plan to \"Enterprise\" to activate all cost related features"
       },
       "answer": "A and C",
       "explanation": "The Business and Enterprise Support Plan should be used for the Cost Optimization Checks for trusted advisors. The Trusted Advisor Cost Optimization Checks can capture low-cost EC2 instances. To test the trusted advisor activities, the client just has to create a CloudWatch event policy and provide notification with Lambda."
@@ -2100,7 +2100,7 @@
         "D": "10"
       },
       "answer": "D",
-      "explanation": "To modify the configuration in the Elastic Beanstalk, you can use AWS CLI and Console. The priorities are "configurations in AWS console" > "configurations in .ebextensions" > "default value". Therefore, the maximum value of the ASG will be"
+      "explanation": "To modify the configuration in the Elastic Beanstalk, you can use AWS CLI and Console. The priorities are \"configurations in AWS console\" > \"configurations in .ebextensions\" > \"default value\". Therefore, the maximum value of the ASG will be"
     },
     {
       "id": "173",
@@ -2220,7 +2220,7 @@
         "D": "Use the outputs section in the Cloudformation template, so that based on the relevant region, the relevant resource can be spun up"
       },
       "answer": "C",
-      "explanation": "The optional "Mappings" segment matches a key to a set of named values. For example, if you want to set a region-based value, you can create a mapping using the name of the region as a key and containing values for each particular region. You use the intrinsic function Fn::FindInMap to get values from a map."
+      "explanation": "The optional \"Mappings\" segment matches a key to a set of named values. For example, if you want to set a region-based value, you can create a mapping using the name of the region as a key and containing values for each particular region. You use the intrinsic function Fn::FindInMap to get values from a map."
     },
     {
       "id": "183",
@@ -2405,7 +2405,7 @@
     },
     {
       "id": "198",
-      "question": "What is the meaning of the given code in the CloudFormation template? "SNSTopic" : { "Type" : "AWS::SNS::Topic", "Properties" : { "Subscription" : [{ "Protocol" : "sqs", "Endpoint" : { "Fn::GetAtt" : [ "SQSQueue" , "Arn" ] } }] }",
+      "question": "What is the meaning of the given code in the CloudFormation template? \"SNSTopic\" : { \"Type\" : \"AWS::SNS::Topic\", \"Properties\" : { \"Subscription\" : [{ \"Protocol\" : \"sqs\", \"Endpoint\" : { \"Fn::GetAtt\" : [ \"SQSQueue\" , \"Arn\" ] } }] }",
       "options": {
         "A": "It creates an SNS topic and adds a subscription ARN endpoint for the SQS resource created under the logical name SQSQueue",
         "B": "It creates an SNS topic and then invokes the call to create an SQS queue with a logical resource name of SQSQueue",
@@ -2490,15 +2490,15 @@
     },
     {
       "id": "205",
-      "question": "AWS Codepipeline is used by Bert as a tool of continuous integration and deployment for a Lambda function. In its deployment stage, the deployment provider is CloudFormation and the Action Mode is configured as "Create or update a stack". Initially, the pipeline was working fine but there has been an inappropriate update in CloudFormation stack due to some mistake in the template. Now, Bert is asked to create a design in which updating directly on stack is not done and instead, there must be a way to preview the stack changes before the deployment is completed. How should he work on this task?",
+      "question": "AWS Codepipeline is used by Bert as a tool of continuous integration and deployment for a Lambda function. In its deployment stage, the deployment provider is CloudFormation and the Action Mode is configured as \"Create or update a stack\". Initially, the pipeline was working fine but there has been an inappropriate update in CloudFormation stack due to some mistake in the template. Now, Bert is asked to create a design in which updating directly on stack is not done and instead, there must be a way to preview the stack changes before the deployment is completed. How should he work on this task?",
       "options": {
-        "A": "Modify the Action Mode to "Create or replace a change set" for users to review the change. Then add another deployment stage to execute the change set if the change set is approved",
-        "B": "Change the Action Mode to "Delete a stack" so that the environment is clean. Then add another stage to deploy the CloudFormation stack using the new template",
+        "A": "Modify the Action Mode to \"Create or replace a change set\" for users to review the change. Then add another deployment stage to execute the change set if the change set is approved",
+        "B": "Change the Action Mode to \"Delete a stack\" so that the environment is clean. Then add another stage to deploy the CloudFormation stack using the new template",
         "C": "Modify the deployment provider to CodeDeploy to avoid any issues on the CloudFormation stack update",
         "D": "Change the code review process so that any issues on CloudFormation stacks are avoided"
       },
       "answer": "A",
-      "explanation": "The change set is created for analyzing the changes in the resources before execution, by using "Create or replace a change set" action mode. If changes appear correct, the change set is executed."
+      "explanation": "The change set is created for analyzing the changes in the resources before execution, by using \"Create or replace a change set\" action mode. If changes appear correct, the change set is executed."
     },
     {
       "id": "206",
@@ -2576,7 +2576,7 @@
     },
     {
       "id": "212",
-      "question": "Albert is using AWS CodeBuild service to handle the build task in a CI/CD pipeline. In the pre-build phase of buildspec.yml, there is a docker login command such as "docker login -u $USER_NAME - p $LOGIN_PASSWORD". And its user name and password are provided as variables in the env phase in the same buildspec.yml file. The credentials may be exposed, which is one of the security issues. What is the best way to overcome this issue?",
+      "question": "Albert is using AWS CodeBuild service to handle the build task in a CI/CD pipeline. In the pre-build phase of buildspec.yml, there is a docker login command such as \"docker login -u $USER_NAME - p $LOGIN_PASSWORD\". And its user name and password are provided as variables in the env phase in the same buildspec.yml file. The credentials may be exposed, which is one of the security issues. What is the best way to overcome this issue?",
       "options": {
         "A": "Store the credentials in a file and put the file in an S3 bucket. Encrypt the S3 bucket via SSE-S3. Modify the buildspec.yml file to use the encrypted file in the S3 bucket",
         "B": "In the env phase of the buildspec.yml file, use the parameter- store to specify the user name and password. The values are stored in Systems Manager parameter store",
@@ -2870,7 +2870,7 @@
         "B": "You can start and stop instances manually",
         "C": "A stacks instance can be a combination of both Linux and Windows based operating systems",
         "D": "You can use EC2 Instances that were created outside the boundary of OpsWork Answer: A, B, and D Explanation: Following are the features of OpsWork: You can start, stop, or automatically scale the number of instances by AWS OpsWorks Stacks. With any stack you can use automatic time-based scaling; Linux stacks can also use load-based scaling You can also register instances with a Linux stack that has been created outside of AWS OpsWorks Stacks in addition to the use of AWS OpsWorks Stacks in Amazon EC2 instances. This includes EC2 instances and instances on your own hardware. They have to run one of the Linux distributions that is supported however, you may not be able to register on-premises Windows instances or Amazon EC2 A stack can run Linux or Windows instances. A stack may have various Linux versions or distributions on various instances, but Linux and Windows cannot be mixed 237. In order to implement the A/B test strategy for a web application, a DevOps team is using Lambda@Edge. Logic may be added in the CloudFront CDN by Lambda@Edge to select what content to deliver without touching the application code. It is easily possible to test and analyze two versions of app content. The end user sends the viewer request to CloudFront then it sends the origin request to the origin server. Now the server origin sends the response to cache of CloudFront and then sends the viewer response to end user. From the following, which of the following can be configured to add the logic to choose different versions of applications for A/B testing? (Choose 3) A. CloudFront Cache B. Viewer Response C. Origin Response D. Viewer Request",
-        "E": "Origin Request Answer: C, D, and E Explanation: In order to choose a version of the application, you can configure Viewer request: When CloudFront receives a viewer request, it checks to see if the object in the edge cache is the requested object. Origin Request: If the object is in the edge cache, then this function does not execute. It is executed when CloudFront forwards the request to the origin server. Origin Response: It will execute when the CloudFront receives a response from the origin before caching it to the edge cache. When there is an error from the origin, this function still executes. It will not execute in a case when an object is in the cache or response is generated by the function, which was triggered by an origin request event. 238. A company creates a CloudFormation Template that passes user data to the underlying EC2 Instance. Choose the function that is normally used in the CloudFormation template to transfer data into the UserData section. A. "UserData": { "Fn::Ref": { B. "UserData": { "Fn::GetAtt": { C. "UserData": { "Fn::FindInMap": { D. "UserData": { "Fn::Base64": {"
+        "E": "Origin Request Answer: C, D, and E Explanation: In order to choose a version of the application, you can configure Viewer request: When CloudFront receives a viewer request, it checks to see if the object in the edge cache is the requested object. Origin Request: If the object is in the edge cache, then this function does not execute. It is executed when CloudFront forwards the request to the origin server. Origin Response: It will execute when the CloudFront receives a response from the origin before caching it to the edge cache. When there is an error from the origin, this function still executes. It will not execute in a case when an object is in the cache or response is generated by the function, which was triggered by an origin request event. 238. A company creates a CloudFormation Template that passes user data to the underlying EC2 Instance. Choose the function that is normally used in the CloudFormation template to transfer data into the UserData section. A. \"UserData\": { \"Fn::Ref\": { B. \"UserData\": { \"Fn::GetAtt\": { C. \"UserData\": { \"Fn::FindInMap\": { D. \"UserData\": { \"Fn::Base64\": {"
       },
       "answer": "D",
       "explanation": "The intrinsic Fn::Base64 function returns the input string in Base64 representation. This function is typically used to transfer encoded data via the UserData property to Amazon EC2 instances."
@@ -2892,10 +2892,10 @@
       "id": "238",
       "question": "A company creates a CloudFormation Template that passes user data to the underlying EC2 Instance. Choose the function that is normally used in the CloudFormation template to transfer data into the UserData section.",
       "options": {
-        "A": ""UserData": { "Fn::Ref": {",
-        "B": ""UserData": { "Fn::GetAtt": {",
-        "C": ""UserData": { "Fn::FindInMap": {",
-        "D": ""UserData": { "Fn::Base64": {"
+        "A": "\"UserData\": { \"Fn::Ref\": {",
+        "B": "\"UserData\": { \"Fn::GetAtt\": {",
+        "C": "\"UserData\": { \"Fn::FindInMap\": {",
+        "D": "\"UserData\": { \"Fn::Base64\": {"
       },
       "answer": "D",
       "explanation": "The intrinsic Fn::Base64 function returns the input string in Base64 representation. This function is typically used to transfer encoded data via the UserData property to Amazon EC2 instances."
@@ -3159,13 +3159,13 @@
       "id": "260",
       "question": "In AWS CodeDeploy, ABC company used a single web application, which includes EC2, for AWS services. CodeDeploy works well, but your manager wants to get notifications in time when the next installation is successful or fails, in the slack channel. You were told to implement this in AWS CloudWatch events. A Lambda feature that only covers deployments would be the target of the Event rule. What is the right event pattern for the rule?",
       "options": {
-        "A": "{ "source": [ "aws.codedeploy" ], "detail-type": [ "CodeDeploy Deployment State-change Notification" ], "detail": { "state": [ "FAILURE", "SUCCESS" "READY" "START" ] } }",
-        "B": "{ "source": [ "aws.codedeploy" ], "detail-type": [ "CodeDeploy Deployment State-change Notification" ], "detail": { "state": [ "FAILURE", "SUCCESS" ] } }",
-        "C": "{ "source": [ "aws.codedeploy" ], "detail-type": [ "AWS API Call via CloudTrail" ], "detail": { "state": [ "FAILURE", "SUCCESS" ] } }",
-        "D": "{ "source": [ "aws.codedeploy" ], "detail-type": [ "CodeDeploy Deployment State-change Notification" ], "detail": { "state": [ "FAILURE", "START" ] } }"
+        "A": "{ \"source\": [ \"aws.codedeploy\" ], \"detail-type\": [ \"CodeDeploy Deployment State-change Notification\" ], \"detail\": { \"state\": [ \"FAILURE\", \"SUCCESS\" \"READY\" \"START\" ] } }",
+        "B": "{ \"source\": [ \"aws.codedeploy\" ], \"detail-type\": [ \"CodeDeploy Deployment State-change Notification\" ], \"detail\": { \"state\": [ \"FAILURE\", \"SUCCESS\" ] } }",
+        "C": "{ \"source\": [ \"aws.codedeploy\" ], \"detail-type\": [ \"AWS API Call via CloudTrail\" ], \"detail\": { \"state\": [ \"FAILURE\", \"SUCCESS\" ] } }",
+        "D": "{ \"source\": [ \"aws.codedeploy\" ], \"detail-type\": [ \"CodeDeploy Deployment State-change Notification\" ], \"detail\": { \"state\": [ \"FAILURE\", \"START\" ] } }"
       },
       "answer": "B",
-      "explanation": "The CloudWatch Events policy is useful for tracking CodeDeploy status. Because this example needs to track the change in deployment status, the "detail-type" should be "CodeDeploy Deployment State-change Notification"."
+      "explanation": "The CloudWatch Events policy is useful for tracking CodeDeploy status. Because this example needs to track the change in deployment status, the \"detail-type\" should be \"CodeDeploy Deployment State-change Notification\"."
     },
     {
       "id": "261",
@@ -3225,7 +3225,7 @@
         "D": "Adding the appropriate driver packages to ensure the application can work with the database"
       },
       "answer": "D",
-      "explanation": "For Linux Stacks, you have to add the appropriate driver package to the associated application layer if you want to associate an Amazon RDS service layer with your application. To do this, follow the given steps: i. Click "Layers" in the navigation pane and open the app server's "Recipes" tab. ii. Click "Edit" and insert OS Packages with the appropriate driver package. For example, if a layer contains instances of Amazon Linux or mysql-client, you should specify mysql if the layer contains instances of Ubuntu. iii. Save changes and redeploy the app."
+      "explanation": "For Linux Stacks, you have to add the appropriate driver package to the associated application layer if you want to associate an Amazon RDS service layer with your application. To do this, follow the given steps: i. Click \"Layers\" in the navigation pane and open the app server's \"Recipes\" tab. ii. Click \"Edit\" and insert OS Packages with the appropriate driver package. For example, if a layer contains instances of Amazon Linux or mysql-client, you should specify mysql if the layer contains instances of Ubuntu. iii. Save changes and redeploy the app."
     },
     {
       "id": "266",
@@ -3579,7 +3579,7 @@
         "D": "Provide your VP with a link to IAM AWS documentation to address the VP's key rotation concerns"
       },
       "answer": "B",
-      "explanation": "To know when access keys have been developed, use the "iam: ListAccessKeys". This knowledge can be used to identify which keys are older than six months. Execute a batch process to generate a conformity report as requested by the Department of Compliance VP."
+      "explanation": "To know when access keys have been developed, use the \"iam: ListAccessKeys\". This knowledge can be used to identify which keys are older than six months. Execute a batch process to generate a conformity report as requested by the Department of Compliance VP."
     },
     {
       "id": "295",
@@ -3616,7 +3616,7 @@
         "D": "Create deployable versioned bundles of your application. Store the bundle on Amazon S3. Re-deploy your web application on Elastic Beanstalk and enable the Elastic Beanstalk auto- rollback feature tied to CloudWatch metrics that define failure"
       },
       "answer": "C",
-      "explanation": "AWS DeploymentCommand contains a rollback option in it. Apps can be used by the following commands: deploy: Deploy App. Ruby on Rails apps has an optional migrate args parameter. To migrate the database, set Args to {"migrate":["true"]}. The default setting is {"migrate":["false"]}. The app will roll back to the previous version with the "rollback" feature. AWS OpsWorks stores the previous versions, up to five versions, when we update an app. We can roll an app back in four versions with this command."
+      "explanation": "AWS DeploymentCommand contains a rollback option in it. Apps can be used by the following commands: deploy: Deploy App. Ruby on Rails apps has an optional migrate args parameter. To migrate the database, set Args to {\"migrate\":[\"true\"]}. The default setting is {\"migrate\":[\"false\"]}. The app will roll back to the previous version with the \"rollback\" feature. AWS OpsWorks stores the previous versions, up to five versions, when we update an app. We can roll an app back in four versions with this command."
     },
     {
       "id": "298",
@@ -3653,7 +3653,7 @@
         "E": "Use data pipelines to migrate your DynamoDB table to a new DynamoDB table with a primary key that is evenly distributed across your dataset. Update your web application to request data from the new table"
       },
       "answer": "E",
-      "explanation": "The table's provisioned throughput optimal depends on the following factors: The primary key selection The workload patterns on individual items Each item in a table is uniquely defined by the primary key. The primary key can be simple (partition key) or composite (partition key and sort key). DynamoDB divides the items of a table into multiple partitions when saving data and mainly distributes the data based on the key partition value. Consequently, you keep the workload evenly across key partition values to achieve the full amount of query throughput provided for a table. Distributing requests across partition key values distributes the requests across partitions. We can create a new index when we import data from S3 with the datapipeline into a new dynamodb table. Following are the steps: i. Login to the console and select DynamoDB. ii. Select the table you have to copy. iii. Select Export / Import. For copying DynamoDB table to S3 or from S3 to DynamoDB table export / import uses dataPipeline and EMR. iv. If you do not have two IAM roles for export / import, you must create them. v. Click the export table option. vi. You will need to specify the following: S3 bucket to copy the table data and another bucket to store log files for operation. The same bucket can be used The percentage of the throughput capacity for the table to be used to read data from the table (to copy to S3) that was provided. The default value is 25%. The increased percentage will accelerate backup The IAM roles: The values will be default vii. Choose the option "create data pipeline", and the backup will be scheduled depending on the table size, the backup may take time. viii. After exporting, check logs to verify that no bugs are there. ix. Note the hash and range key information of the table. x. Delete the table. xi. Create a table with the right index. Set the provisioned throughput. xii. Using import option, import into a table from S"
+      "explanation": "The table's provisioned throughput optimal depends on the following factors: The primary key selection The workload patterns on individual items Each item in a table is uniquely defined by the primary key. The primary key can be simple (partition key) or composite (partition key and sort key). DynamoDB divides the items of a table into multiple partitions when saving data and mainly distributes the data based on the key partition value. Consequently, you keep the workload evenly across key partition values to achieve the full amount of query throughput provided for a table. Distributing requests across partition key values distributes the requests across partitions. We can create a new index when we import data from S3 with the datapipeline into a new dynamodb table. Following are the steps: i. Login to the console and select DynamoDB. ii. Select the table you have to copy. iii. Select Export / Import. For copying DynamoDB table to S3 or from S3 to DynamoDB table export / import uses dataPipeline and EMR. iv. If you do not have two IAM roles for export / import, you must create them. v. Click the export table option. vi. You will need to specify the following: S3 bucket to copy the table data and another bucket to store log files for operation. The same bucket can be used The percentage of the throughput capacity for the table to be used to read data from the table (to copy to S3) that was provided. The default value is 25%. The increased percentage will accelerate backup The IAM roles: The values will be default vii. Choose the option \"create data pipeline\", and the backup will be scheduled depending on the table size, the backup may take time. viii. After exporting, check logs to verify that no bugs are there. ix. Note the hash and range key information of the table. x. Delete the table. xi. Create a table with the right index. Set the provisioned throughput. xii. Using import option, import into a table from S"
     },
     {
       "id": "301",
@@ -4166,8 +4166,8 @@
       "question": "For testing an application, the development team has requested you to create a CloudFormation template. They have requested that when the stack is deleted, the database should be preserved. How can you do this with CloudFormation?",
       "options": {
         "A": "In the AWS CloudFormation template, set the AWS::RDS::DBInstance's DBlnstanceClass property to be read-only",
-        "B": "In the AWS CloudFormation template, set the WaitPolicy of the AWS::RDS::DBInstance's WaitPolicy property to "Retain"",
-        "C": "In the AWS CloudFormation template, set the DeletionPolicy of theAWS::RDS::DBInstance's DeletionPolicy property to "Retain"",
+        "B": "In the AWS CloudFormation template, set the WaitPolicy of the AWS::RDS::DBInstance's WaitPolicy property to \"Retain\"",
+        "C": "In the AWS CloudFormation template, set the DeletionPolicy of theAWS::RDS::DBInstance's DeletionPolicy property to \"Retain\"",
         "D": "Ensure that the RDS is created with Read Replica's so that the Read Replica remains after the stack is torn down"
       },
       "answer": "C",
@@ -4444,8 +4444,8 @@
       "question": "You have a set of web servers to host a web application on AWS. This app is used by a section of users and you want to monitor the number errors occurred when using the web application. Which of the following can be used to do this? (Choose 3)",
       "options": {
         "A": "Increase a metric filter in Cloudwatch whenever the pattern is matched",
-        "B": "Search for the keyword "ERROR" in Cloudwatch logs",
-        "C": "Search for the keyword "ERROR" in the log files on the server",
+        "B": "Search for the keyword \"ERROR\" in Cloudwatch logs",
+        "C": "Search for the keyword \"ERROR\" in the log files on the server",
         "D": "Send the logs from the instances onto Cloudwatch logs Answer: A, B, and D Explanation: The AWS documentation mentions the following; You use metric filters to search for and match terms, phrases, or values in your log events. When a metric filter finds one of the terms, phrases, or values in your log events, you can increase the value of a CloudWatch metric. For example, you can create a metric filter to search for and count the occurrence of the word. https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.htm 367. Your organization's web application is hosted on an Elastic BeanStalk environment and it is instructed that whenever application changes occur, and newer versions need to be deployed; the fastest deployment approach should be used. Which of the following deployment mechanisms fulfills this requirement? A. Rolling with batch B. Immutable C. Rolling D. All at once"
       },
       "answer": "D",
@@ -4545,7 +4545,7 @@
         "D": "In the properties section of the EC2 Instance in the resources section"
       },
       "answer": "D",
-      "explanation": "The following is an example of how user data can be passed to instances using a CloudFormation template: { "Resources": { "WebServerInstance": { "Type": "AWS::EC2::Instance". "Properties": { "InstanceType": "t2.micro". "ImageId": "ami-6f198a0c". "UserData": { "Fn::Base64":. "Fn::Join": { "\\n". [ "#!/bin/bash". "sudo apt-get update". "sudo apt-get install -y nginx]]}} } } } } https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/deploying.applicatio"
+      "explanation": "The following is an example of how user data can be passed to instances using a CloudFormation template: { \"Resources\": { \"WebServerInstance\": { \"Type\": \"AWS::EC2::Instance\". \"Properties\": { \"InstanceType\": \"t2.micro\". \"ImageId\": \"ami-6f198a0c\". \"UserData\": { \"Fn::Base64\":. \"Fn::Join\": { \"\n\". [ \"#!/bin/bash\". \"sudo apt-get update\". \"sudo apt-get install -y nginx\"]]}} } } } } https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/deploying.applicatio"
     },
     {
       "id": "375",
