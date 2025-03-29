@@ -8,8 +8,6 @@ import { Label } from '../../src/components/ui/label';
 import { Progress } from '../../src/components/ui/progress';
 import Link from 'next/link';
 import questionsData from '../../questions.json';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { updateQuizProgress, getProgressData } from '@/lib/progress-tracker';
 
 // Convert the questions from the JSON file to the format expected by the quiz
 const quizQuestions = questionsData.questions.map(q => {
@@ -17,18 +15,8 @@ const quizQuestions = questionsData.questions.map(q => {
   const optionsArray = Object.values(q.options);
   const optionKeys = Object.keys(q.options);
   
-  // Check if answer contains multiple options (with "and" or comma-separated)
-  let correctAnswers;
-  if (q.answer.includes(' and ')) {
-    // Handle "A and B" format
-    correctAnswers = q.answer.split(' and ').flatMap(part => 
-      part.split(',').map(a => a.trim())
-    );
-  } else {
-    // Handle comma-separated format
-    correctAnswers = q.answer.split(',').map(a => a.trim());
-  }
-  
+  // Check if answer contains multiple options (comma-separated)
+  const correctAnswers = q.answer.split(',').map(a => a.trim());
   const correctAnswerIndices = correctAnswers.map(answer => 
     optionKeys.findIndex(key => key === answer)
   );
@@ -71,61 +59,8 @@ export default function QuizPage() {
     }
     return false;
   });
-  // Track answered questions to enable navigation
-  const [answeredQuestions, setAnsweredQuestions] = useState<Set<number>>(() => {
-    // Try to get saved answered questions from localStorage
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('quiz_answered_questions');
-      return saved ? new Set(JSON.parse(saved)) : new Set<number>();
-    }
-    return new Set<number>();
-  });
-  
-  // Track study time
-  const [startTime, setStartTime] = useState<number>(Date.now());
-  
-  // Initialize timer for tracking study time
-  useEffect(() => {
-    setStartTime(Date.now());
-    
-    // Set up interval to update study time every 5 minutes
-    const interval = setInterval(() => {
-      const elapsedMinutes = Math.floor((Date.now() - startTime) / (1000 * 60));
-      if (elapsedMinutes >= 5) {
-        // Import here to avoid circular dependency
-        const { updateStudyTime } = require('@/lib/progress-tracker');
-        updateStudyTime(5);
-        setStartTime(Date.now());
-      }
-    }, 5 * 60 * 1000);
-    
-    return () => clearInterval(interval);
-  }, []);
-
-  // Save answered questions to localStorage
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('quiz_answered_questions', JSON.stringify([...answeredQuestions]));
-    }
-  }, [answeredQuestions]);
-
-  // Load selected options for the current question if it was previously answered
-  useEffect(() => {
-    if (answeredQuestions.has(currentQuestion) && typeof window !== 'undefined') {
-      const savedOptions = localStorage.getItem(`quiz_selected_options_${currentQuestion}`);
-      if (savedOptions) {
-        setSelectedOptions(JSON.parse(savedOptions));
-        setShowExplanation(true);
-      }
-    } else {
-      setSelectedOptions([]);
-      setShowExplanation(false);
-    }
-  }, [currentQuestion, answeredQuestions]);
 
   const handleOptionSelect = (index: number) => {
-    if (showExplanation) return; // Prevent changes after checking answer
-    
     if (quizQuestions[currentQuestion].isMultipleAnswer) {
       // For multiple answer questions, toggle the selection
       setSelectedOptions(prev => {
@@ -143,7 +78,6 @@ export default function QuizPage() {
 
   const handleCheckAnswer = () => {
     const question = quizQuestions[currentQuestion];
-    let isCorrect = false;
     
     if (question.isMultipleAnswer) {
       // For multiple answer questions, check if all correct answers are selected and no incorrect ones
@@ -154,9 +88,7 @@ export default function QuizPage() {
         selectedOptions.includes(index)
       );
       
-      isCorrect = correctlySelected && allCorrectSelected;
-      
-      if (isCorrect) {
+      if (correctlySelected && allCorrectSelected) {
         const newScore = score + 1;
         setScore(newScore);
         // Save score to localStorage
@@ -166,9 +98,7 @@ export default function QuizPage() {
       }
     } else {
       // For single answer questions, check if the selected option is correct
-      isCorrect = selectedOptions.length === 1 && question.correctAnswerIndices.includes(selectedOptions[0]);
-      
-      if (isCorrect) {
+      if (selectedOptions.length === 1 && question.correctAnswerIndices.includes(selectedOptions[0])) {
         const newScore = score + 1;
         setScore(newScore);
         // Save score to localStorage
@@ -179,31 +109,13 @@ export default function QuizPage() {
     }
     
     setShowExplanation(true);
-    
-    // Mark this question as answered
-    setAnsweredQuestions(prev => {
-      const newSet = new Set(prev);
-      newSet.add(currentQuestion);
-      return newSet;
-    });
-    
-    // Save selected options for this question
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(`quiz_selected_options_${currentQuestion}`, JSON.stringify(selectedOptions));
-    }
-    
-    // Update progress tracker
-    updateQuizProgress(
-      question.id,
-      isCorrect,
-      selectedOptions,
-      currentQuestion,
-      score,
-      false
-    );
   };
 
   const handleNextQuestion = () => {
+    // Explicitly reset selections before changing the question
+    setSelectedOptions([]);
+    setShowExplanation(false);
+    
     if (currentQuestion < quizQuestions.length - 1) {
       const nextQuestion = currentQuestion + 1;
       setCurrentQuestion(nextQuestion);
@@ -217,28 +129,6 @@ export default function QuizPage() {
       if (typeof window !== 'undefined') {
         localStorage.setItem('quiz_completed', 'true');
       }
-      
-      // Update progress tracker with completion
-      const question = quizQuestions[currentQuestion];
-      updateQuizProgress(
-        question.id,
-        false, // This value doesn't matter for completion
-        [],    // This value doesn't matter for completion
-        currentQuestion,
-        score,
-        true   // Mark as completed
-      );
-    }
-  };
-
-  const handlePreviousQuestion = () => {
-    if (currentQuestion > 0) {
-      const prevQuestion = currentQuestion - 1;
-      setCurrentQuestion(prevQuestion);
-      // Save progress to localStorage
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('quiz_current_question', prevQuestion.toString());
-      }
     }
   };
 
@@ -248,24 +138,13 @@ export default function QuizPage() {
     setShowExplanation(false);
     setScore(0);
     setQuizCompleted(false);
-    setAnsweredQuestions(new Set());
     
     // Clear localStorage for quiz
     if (typeof window !== 'undefined') {
       localStorage.removeItem('quiz_current_question');
       localStorage.removeItem('quiz_score');
       localStorage.removeItem('quiz_completed');
-      localStorage.removeItem('quiz_answered_questions');
-      
-      // Clear all selected options for each question
-      for (let i = 0; i < quizQuestions.length; i++) {
-        localStorage.removeItem(`quiz_selected_options_${i}`);
-      }
     }
-    
-    // Reset progress in tracker
-    const { resetQuizProgress } = require('@/lib/progress-tracker');
-    resetQuizProgress();
   };
 
   const progress = ((currentQuestion + 1) / quizQuestions.length) * 100;
@@ -313,14 +192,6 @@ export default function QuizPage() {
             >
               Restart Quiz
             </Button>
-            <Link href="/progress" className="w-full sm:w-auto">
-              <Button 
-                variant="outline" 
-                className="border-slate-600 text-white hover:bg-slate-700 w-full"
-              >
-                View Progress Dashboard
-              </Button>
-            </Link>
             <Link href="/" className="w-full sm:w-auto">
               <Button 
                 variant="outline" 
@@ -343,7 +214,7 @@ export default function QuizPage() {
         <CardHeader>
           <div className="flex justify-between items-center mb-2">
             <div className="text-sm text-slate-400">Question {currentQuestion + 1} of {quizQuestions.length}</div>
-            <div className="text-sm text-slate-400">Score: {score}/{answeredQuestions.size}</div>
+            <div className="text-sm text-slate-400">Score: {score}/{quizQuestions.length}</div>
           </div>
           <Progress value={progress} className="h-2 bg-slate-700" />
           <CardTitle className="text-2xl mt-4">
@@ -427,8 +298,8 @@ export default function QuizPage() {
             </div>
           )}
         </CardContent>
-        <CardFooter className="flex flex-col gap-3">
-          <div className="flex justify-between w-full">
+        <CardFooter className="flex justify-between">
+          <div className="flex gap-3 w-full">
             {!showExplanation ? (
               <>
                 <Button 
@@ -463,26 +334,6 @@ export default function QuizPage() {
                 </Button>
               </>
             )}
-          </div>
-          
-          {/* Navigation buttons */}
-          <div className="flex justify-between w-full mt-2">
-            <Button
-              onClick={handlePreviousQuestion}
-              disabled={currentQuestion === 0}
-              variant="outline"
-              className="border-slate-600 text-white hover:bg-slate-700 w-[48%]"
-            >
-              <ChevronLeft className="mr-2 h-4 w-4" /> Previous
-            </Button>
-            <Button
-              onClick={handleNextQuestion}
-              disabled={currentQuestion === quizQuestions.length - 1}
-              variant="outline"
-              className="border-slate-600 text-white hover:bg-slate-700 w-[48%]"
-            >
-              Next <ChevronRight className="ml-2 h-4 w-4" />
-            </Button>
           </div>
         </CardFooter>
       </Card>

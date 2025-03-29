@@ -8,7 +8,6 @@ import questionsData from '../../questions.json';
 import { Question, Domain, QuestionDifficulty, TestResults } from '@/lib/types';
 import TestMode from '@/components/test-mode';
 import TestResultsView from '@/components/test-results-view';
-import { saveTestResults } from '@/lib/progress-tracker';
 
 // Convert the questions from the JSON file to the format expected by the test mode
 const testQuestions: Question[] = questionsData.questions.map(q => {
@@ -18,17 +17,8 @@ const testQuestions: Question[] = questionsData.questions.map(q => {
     text: value
   }));
   
-  // Check if answer contains multiple options (with "and" or comma-separated)
-  let correctAnswers;
-  if (q.answer.includes(' and ')) {
-    // Handle "A and B" format
-    correctAnswers = q.answer.split(' and ').flatMap(part => 
-      part.split(',').map(a => a.trim())
-    );
-  } else {
-    // Handle comma-separated format
-    correctAnswers = q.answer.split(',').map(a => a.trim());
-  }
+  // Check if answer contains multiple options (comma-separated)
+  const correctAnswers = q.answer.split(',').map(a => a.trim());
   
   return {
     id: q.id,
@@ -57,9 +47,6 @@ export default function TestPage() {
       localStorage.setItem('test_results', JSON.stringify(results));
       localStorage.setItem('test_completed', 'true');
     }
-    
-    // Save to progress tracker
-    saveTestResults(results);
   };
   
   // Handle test retake
@@ -87,30 +74,28 @@ export default function TestPage() {
     }
   }, []);
   
+  // Return to home page
+  const handleReturnHome = () => {
+    // We'll use Link component for navigation, but this function is for the TestResultsView
+  };
+  
   return (
     <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center p-4">
       {testCompleted && testResults ? (
         <TestResultsView 
           results={testResults} 
           onRetake={handleRetakeTest} 
-          onClose={() => {}} 
+          onClose={handleReturnHome} 
         />
       ) : (
         <div className="w-full">
           <div className="mb-6 flex justify-between items-center">
             <h1 className="text-2xl font-bold">AWS DevOps Professional Test Mode</h1>
-            <div className="flex gap-2">
-              <Link href="/progress">
-                <Button variant="outline" className="border-slate-600 text-white hover:bg-slate-700">
-                  View Progress
-                </Button>
-              </Link>
-              <Link href="/">
-                <Button variant="outline" className="border-slate-600 text-white hover:bg-slate-700">
-                  Back to Home
-                </Button>
-              </Link>
-            </div>
+            <Link href="/">
+              <Button variant="outline" className="border-slate-600 text-white hover:bg-slate-700">
+                Back to Home
+              </Button>
+            </Link>
           </div>
           
           <TestMode 
