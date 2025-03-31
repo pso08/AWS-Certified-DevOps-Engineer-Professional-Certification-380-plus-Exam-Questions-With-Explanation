@@ -6,6 +6,7 @@
  * This component displays a question as a flashcard with flip animation.
  * It shows the question on the front and the answer with explanation on the back.
  * Now includes interactive answer selection functionality.
+ * Improved responsive design to prevent overflow on mobile devices.
  */
 
 import { useState, useEffect } from 'react';
@@ -184,49 +185,49 @@ export default function Flashcard({
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto">
-      <div className="relative perspective-1000 mb-16">
+    <div className="w-full max-w-3xl mx-auto px-2 sm:px-0">
+      <div className="relative perspective-1000 mb-8 sm:mb-16">
         <div 
           className={`relative w-full transition-transform duration-500 transform-style-3d ${
             isFlipped ? 'rotate-y-180' : ''
           }`}
-          style={{ minHeight: '400px' }}
+          style={{ minHeight: 'min(400px, calc(100vh - 200px))' }}
         >
           {/* Front of card (Question) */}
           <Card 
-            className={`absolute w-full h-full backface-hidden p-6 ${
+            className={`absolute w-full h-full backface-hidden p-3 sm:p-6 ${
               isFlipped ? 'invisible' : ''
             }`}
           >
             <div className="flex flex-col h-full">
-              <div className="flex justify-between items-center mb-4">
-                <div className="text-sm text-muted-foreground">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
+                <div className="text-xs sm:text-sm text-muted-foreground">
                   Domain: {question.domain}
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-xs sm:text-sm text-muted-foreground">
                   Difficulty: {question.difficulty}
                 </div>
               </div>
               
-              <div className="flex-grow overflow-y-auto" style={{ maxHeight: "300px" }}>
-                <h3 className="text-xl font-semibold mb-4">Question</h3>
-                <p className="text-lg mb-4 break-words whitespace-normal">{question.text}</p>
+              <div className="flex-grow overflow-y-auto" style={{ maxHeight: "min(300px, calc(100vh - 300px))" }}>
+                <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-4">Question</h3>
+                <p className="text-base sm:text-lg mb-4 break-words whitespace-normal">{question.text}</p>
                 
                 {/* Display interactive options on the front */}
-                <div className="mt-4 mb-8">
+                <div className="mt-2 sm:mt-4 mb-4 sm:mb-8">
                   <h4 className="font-medium mb-2">Select your answer:</h4>
                   {renderOptions()}
                 </div>
 
                 {submitted && (
-                  <Alert variant={isCorrect ? "default" : "destructive"} className="mt-4 mb-4">
+                  <Alert variant={isCorrect ? "default" : "destructive"} className="mt-2 sm:mt-4 mb-2 sm:mb-4">
                     <div className="flex items-center gap-2">
                       {isCorrect ? (
-                        <CheckCircle2 className="h-5 w-5 text-green-500" />
+                        <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5 text-green-500" />
                       ) : (
-                        <AlertCircle className="h-5 w-5" />
+                        <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5" />
                       )}
-                      <AlertTitle>
+                      <AlertTitle className="text-sm sm:text-base">
                         {isCorrect ? 'Correct!' : 'Incorrect'}
                       </AlertTitle>
                     </div>
@@ -234,17 +235,17 @@ export default function Flashcard({
                 )}
               </div>
               
-              <div className="mt-6 flex justify-center gap-4">
+              <div className="mt-4 sm:mt-6 flex justify-center gap-4">
                 {!submitted ? (
                   <Button 
                     onClick={handleSubmit} 
                     disabled={selectedAnswers.length === 0}
-                    className="w-40"
+                    className="w-full sm:w-40"
                   >
                     Check Answer
                   </Button>
                 ) : (
-                  <Button onClick={handleFlip} className="w-40">
+                  <Button onClick={handleFlip} className="w-full sm:w-40">
                     Show Explanation
                   </Button>
                 )}
@@ -254,14 +255,14 @@ export default function Flashcard({
           
           {/* Back of card (Answer) */}
           <Card 
-            className={`absolute w-full h-full backface-hidden p-6 rotate-y-180 ${
+            className={`absolute w-full h-full backface-hidden p-3 sm:p-6 rotate-y-180 ${
               !isFlipped ? 'invisible' : ''
             }`}
           >
             <div className="flex flex-col h-full">
-              <h3 className="text-xl font-semibold mb-4">Answer</h3>
+              <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-4">Answer</h3>
               
-              <div className="flex-grow overflow-y-auto" style={{ maxHeight: "300px" }}>
+              <div className="flex-grow overflow-y-auto" style={{ maxHeight: "min(300px, calc(100vh - 300px))" }}>
                 <div className="mb-4">
                   <h4 className="font-medium mb-2">Correct {question.isMultipleAnswer ? 'Answers' : 'Answer'}:</h4>
                   <ul className="list-disc pl-5 break-words whitespace-normal">
@@ -275,14 +276,14 @@ export default function Flashcard({
                   </ul>
                 </div>
                 
-                <div className="mb-8">
+                <div className="mb-4 sm:mb-8">
                   <h4 className="font-medium mb-2">Explanation:</h4>
-                  <p className="break-words whitespace-normal">{question.explanation}</p>
+                  <p className="break-words whitespace-normal text-sm sm:text-base">{question.explanation}</p>
                 </div>
               </div>
               
-              <div className="mt-6 flex justify-center">
-                <Button onClick={handleFlip} className="w-40">
+              <div className="mt-4 sm:mt-6 flex justify-center">
+                <Button onClick={handleFlip} className="w-full sm:w-40">
                   Back to Question
                 </Button>
               </div>
@@ -292,11 +293,12 @@ export default function Flashcard({
       </div>
       
       {showNavigation && (
-        <div className="flex justify-between mt-6">
+        <div className="flex flex-col sm:flex-row justify-between mt-4 sm:mt-6 gap-2 sm:gap-0">
           <Button 
             variant="outline" 
             onClick={handlePrevious}
             disabled={!onPrevious}
+            className="w-full sm:w-auto"
           >
             <ChevronLeft className="mr-2 h-4 w-4" />
             Previous
@@ -309,6 +311,7 @@ export default function Flashcard({
               setSelectedAnswers([]);
               setSubmitted(false);
             }}
+            className="w-full sm:w-auto mt-2 sm:mt-0"
           >
             <RotateCw className="mr-2 h-4 w-4" />
             Reset
@@ -318,6 +321,7 @@ export default function Flashcard({
             variant="outline" 
             onClick={handleNext}
             disabled={!onNext}
+            className="w-full sm:w-auto mt-2 sm:mt-0"
           >
             Next
             <ChevronRight className="ml-2 h-4 w-4" />

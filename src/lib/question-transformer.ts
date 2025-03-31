@@ -2,6 +2,7 @@
  * Question Transformer Module
  * 
  * This module transforms questions from the JSON format to the application's expected data model.
+ * Improved parsing of multiple answer formats (comma-separated and "and" format).
  */
 
 import { Question, Option, Domain, QuestionDifficulty } from './types';
@@ -104,18 +105,38 @@ function parseCorrectAnswers(answerStr: string): string[] {
     return ['A']; // Default to A if no answer provided
   }
   
-  // Check if the answer contains multiple options (e.g., "A, C, and D")
-  if (answerStr.includes(',') || answerStr.includes('and')) {
-    // Replace "and" with comma and split by comma
-    const parts = answerStr.replace(/\s+and\s+/g, ',').split(',');
+  // Normalize the answer string by trimming whitespace
+  const normalizedAnswer = answerStr.trim();
+  
+  // Check if the answer contains multiple options
+  if (normalizedAnswer.includes(',') || normalizedAnswer.toLowerCase().includes(' and ')) {
+    // First replace "and" with comma (case insensitive)
+    let processedAnswer = normalizedAnswer.replace(/\s+and\s+/gi, ',');
     
-    // Extract letter options and trim whitespace
-    return parts.map(part => part.trim().charAt(0)).filter(char => /[A-E]/.test(char));
+    // Split by comma and process each part
+    const parts = processedAnswer.split(',');
+    
+    // Extract letter options, trim whitespace, and filter out any non-letter parts
+    return parts
+      .map(part => part.trim())
+      .filter(part => part.length > 0)
+      .map(part => {
+        // If the part is just a single letter (A-Z), return it directly
+        if (/^[A-Z]$/i.test(part)) {
+          return part.toUpperCase();
+        }
+        // If it's something like "A." or "A:", extract just the letter
+        if (/^[A-Z][.:]?$/i.test(part)) {
+          return part.charAt(0).toUpperCase();
+        }
+        // Return the full part (this could be a letter ID like "A", "B", etc.)
+        return part;
+      })
+      .filter(part => part.length > 0); // Filter out any empty parts
   }
   
-  // Single answer - extract just the first character if it's a letter
-  const firstChar = answerStr.trim().charAt(0);
-  return /[A-E]/.test(firstChar) ? [firstChar] : ['A']; // Default to A if invalid
+  // Single answer - check if it's a valid option ID
+  return [normalizedAnswer];
 }
 
 /**

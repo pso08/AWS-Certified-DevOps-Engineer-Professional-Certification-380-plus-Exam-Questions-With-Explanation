@@ -12,8 +12,16 @@ const flashcardQuestions: FlashcardQuestion[] = questionsData.questions.map((q, 
   const optionKeys = Object.keys(q.options);
   const options = Object.values(q.options);
   
-  // Check if answer contains multiple options (comma-separated)
-  const correctAnswers = q.answer.split(',').map(a => a.trim());
+  // Check if answer contains multiple options (comma-separated or "and" format)
+  let correctAnswers: string[];
+  if (q.answer.includes(',')) {
+    correctAnswers = q.answer.split(',').map(a => a.trim());
+  } else if (q.answer.toLowerCase().includes(' and ')) {
+    correctAnswers = q.answer.toLowerCase().split(' and ').map(a => a.trim());
+  } else {
+    correctAnswers = [q.answer.trim()];
+  }
+  
   const isMultipleAnswer = correctAnswers.length > 1;
   
   return {
@@ -114,19 +122,19 @@ export default function FlashcardsPage() {
             className={`relative w-full transition-transform duration-500 transform-style-3d ${
               isFlipped ? 'rotate-y-180' : ''
             }`}
-            style={{ minHeight: '400px' }}
+            style={{ minHeight: 'min(400px, calc(100vh - 200px))' }}
           >
             {/* Front of card (Question) */}
             <Card 
-              className={`absolute w-full h-full backface-hidden p-6 bg-slate-800 border-slate-700 text-white ${
+              className={`absolute w-full h-full backface-hidden p-3 sm:p-6 bg-slate-800 border-slate-700 text-white ${
                 isFlipped ? 'invisible' : ''
               }`}
             >
               <CardHeader>
                 <CardTitle className="text-xl">Question {currentQuestion.isMultipleAnswer ? '(Multiple Answers)' : ''}</CardTitle>
               </CardHeader>
-              <CardContent className="flex-grow overflow-y-auto" style={{ maxHeight: "300px" }}>
-                <p className="text-lg mb-6 break-words whitespace-normal">{currentQuestion.question}</p>
+              <CardContent className="flex-grow overflow-y-auto" style={{ maxHeight: "min(300px, calc(100vh - 300px))" }}>
+                <p className="text-base sm:text-lg mb-6 break-words whitespace-normal">{currentQuestion.question}</p>
                 
                 {showOptions && (
                   <div className="mt-4">
@@ -160,14 +168,14 @@ export default function FlashcardsPage() {
             
             {/* Back of card (Answer) */}
             <Card 
-              className={`absolute w-full h-full backface-hidden p-6 bg-slate-800 border-slate-700 text-white rotate-y-180 ${
+              className={`absolute w-full h-full backface-hidden p-3 sm:p-6 bg-slate-800 border-slate-700 text-white rotate-y-180 ${
                 !isFlipped ? 'invisible' : ''
               }`}
             >
               <CardHeader>
                 <CardTitle className="text-xl">Answer</CardTitle>
               </CardHeader>
-              <CardContent className="flex-grow overflow-y-auto" style={{ maxHeight: "300px" }}>
+              <CardContent className="flex-grow overflow-y-auto" style={{ maxHeight: "min(300px, calc(100vh - 300px))" }}>
                 <div className="mb-4">
                   <h3 className="font-semibold mb-2">{currentQuestion.isMultipleAnswer ? 'Correct Answers:' : 'Correct Answer:'}</h3>
                   {currentQuestion.correctAnswers.map((answer, index) => (
@@ -181,7 +189,7 @@ export default function FlashcardsPage() {
                 
                 <div className="mt-6">
                   <h3 className="font-semibold mb-2">Explanation:</h3>
-                  <p className="text-slate-300 break-words whitespace-normal">{currentQuestion.explanation}</p>
+                  <p className="text-slate-300 break-words whitespace-normal text-sm sm:text-base">{currentQuestion.explanation}</p>
                 </div>
               </CardContent>
               <CardFooter className="flex flex-col sm:flex-row justify-center gap-3">

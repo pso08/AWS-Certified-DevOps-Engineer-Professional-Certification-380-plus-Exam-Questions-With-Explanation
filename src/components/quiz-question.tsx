@@ -5,6 +5,7 @@
  * 
  * This component displays a question in quiz mode with multiple choice options
  * and handles the answer submission flow as required by the user.
+ * Now includes navigation buttons to move between questions.
  */
 
 import { useState, useEffect } from 'react';
@@ -14,35 +15,62 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Question } from '@/lib/types';
-import { AlertCircle, CheckCircle2 } from 'lucide-react';
+import { AlertCircle, CheckCircle2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 interface QuizQuestionProps {
   question: Question;
   onSubmit: (isCorrect: boolean, selectedAnswers: string[]) => void;
   onNext: () => void;
+  onPrevious?: () => void;
   showTimer?: boolean;
   timeLimit?: number; // in seconds
+  initialSelectedAnswers?: string[]; // For preserving previous selections
+  isAnswered?: boolean; // To track if question was already answered
 }
 
 export default function QuizQuestion({
   question,
   onSubmit,
   onNext,
+  onPrevious,
   showTimer = false,
-  timeLimit = 0
+  timeLimit = 0,
+  initialSelectedAnswers = [],
+  isAnswered = false
 }: QuizQuestionProps) {
-  const [selectedAnswers, setSelectedAnswers] = useState<string[]>([]);
-  const [submitted, setSubmitted] = useState(false);
+  const [selectedAnswers, setSelectedAnswers] = useState<string[]>(initialSelectedAnswers);
+  const [submitted, setSubmitted] = useState(isAnswered);
   const [isCorrect, setIsCorrect] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(timeLimit);
 
-  // Reset selected answers when question changes
+  // Initialize state based on props when question changes
   useEffect(() => {
-    setSelectedAnswers([]);
-    setSubmitted(false);
-    setIsCorrect(false);
-  }, [question.id]);
+    setSelectedAnswers(initialSelectedAnswers);
+    setSubmitted(isAnswered);
+    
+    // If the question is already answered, determine if it was correct
+    if (isAnswered && initialSelectedAnswers.length > 0) {
+      let correct = false;
+      
+      if (question.isMultipleAnswer) {
+        const allCorrectAnswersSelected = question.correctAnswers.every(
+          answer => initialSelectedAnswers.includes(answer)
+        );
+        const noIncorrectAnswersSelected = initialSelectedAnswers.every(
+          answer => question.correctAnswers.includes(answer)
+        );
+        
+        correct = allCorrectAnswersSelected && noIncorrectAnswersSelected;
+      } else {
+        correct = question.correctAnswers.includes(initialSelectedAnswers[0]);
+      }
+      
+      setIsCorrect(correct);
+    } else {
+      setIsCorrect(false);
+    }
+  }, [question.id, initialSelectedAnswers, isAnswered, question.correctAnswers, question.isMultipleAnswer]);
 
   // Handle single answer selection (radio buttons)
   const handleSingleAnswerChange = (value: string) => {
@@ -219,7 +247,7 @@ export default function QuizQuestion({
         )}
       </CardContent>
       
-      <CardFooter className="flex justify-between">
+      <CardFooter className="flex flex-col gap-4">
         {!submitted ? (
           <Button 
             onClick={handleSubmit} 
@@ -231,9 +259,6 @@ export default function QuizQuestion({
         ) : (
           <Button 
             onClick={() => {
-              setSelectedAnswers([]);
-              setSubmitted(false);
-              setIsCorrect(false);
               onNext();
             }}
             className="w-full"
@@ -241,6 +266,43 @@ export default function QuizQuestion({
             Next Question
           </Button>
         )}
+        
+        {/* Navigation buttons */}
+        <div className="flex justify-between w-full">
+          <Button 
+            variant="outline" 
+            onClick={() => onPrevious && onPrevious()}
+            disabled={!onPrevious}
+            size="sm"
+            className="w-1/3"
+          >
+            <ChevronLeft className="mr-2 h-4 w-4" />
+            Previous
+          </Button>
+          
+          <Button 
+            variant="outline"
+            onClick={() => {
+              if (submitted) {
+                onNext();
+              } else {
+                handleSubmit();
+              }
+            }}
+            size="sm"
+            className="w-1/3"
+            disabled={!submitted && selectedAnswers.length === 0}
+          >
+            {submitted ? (
+              <>
+                Next
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </>
+            ) : (
+              'Check Answer'
+            )}
+          </Button>
+        </div>
       </CardFooter>
     </Card>
   );
