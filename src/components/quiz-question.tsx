@@ -228,12 +228,9 @@ export default function QuizQuestion({
             </div>
             <AlertDescription className="mt-2 overflow-auto max-h-[300px]">
               <div className="mb-2">
-                <span className="font-medium">Correct {question.isMultipleAnswer ? 'answers' : 'answer'}: </span>
+                <span className="font-medium">Correct Answer: </span>
                 <div className="break-words whitespace-normal">
-                  {question.correctAnswers.map(id => {
-                    const option = question.options.find(o => o.id === id);
-                    return option ? `${id}. ${option.text}` : id;
-                  }).join(question.isMultipleAnswer ? '; ' : '')}
+                  {question.correctAnswers.join(' and ')}
                 </div>
               </div>
               <div className="mt-2">
@@ -257,14 +254,27 @@ export default function QuizQuestion({
             Submit Answer
           </Button>
         ) : (
-          <Button 
-            onClick={() => {
-              onNext();
-            }}
-            className="w-full"
-          >
-            Next Question
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-2 w-full">
+            <Button 
+              onClick={() => {
+                // Reset the submission state but keep the selected answers
+                setSubmitted(false);
+                setIsCorrect(false);
+              }}
+              variant="secondary"
+              className="w-full sm:w-1/2"
+            >
+              Try Again
+            </Button>
+            <Button 
+              onClick={() => {
+                onNext();
+              }}
+              className="w-full sm:w-1/2"
+            >
+              Next Question
+            </Button>
+          </div>
         )}
         
         {/* Navigation buttons */}

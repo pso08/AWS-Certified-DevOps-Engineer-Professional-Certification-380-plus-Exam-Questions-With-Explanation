@@ -264,8 +264,11 @@ export default function Flashcard({
               
               <div className="flex-grow overflow-y-auto" style={{ maxHeight: "min(300px, calc(100vh - 300px))" }}>
                 <div className="mb-4">
-                  <h4 className="font-medium mb-2">Correct {question.isMultipleAnswer ? 'Answers' : 'Answer'}:</h4>
-                  <ul className="list-disc pl-5 break-words whitespace-normal">
+                  <h4 className="font-medium mb-2">Correct Answer:</h4>
+                  <p className="break-words whitespace-normal">
+                    {question.correctAnswers.join(' and ')}
+                  </p>
+                  <ul className="list-disc pl-5 break-words whitespace-normal mt-2">
                     {question.options
                       .filter(option => question.correctAnswers.includes(option.id))
                       .map(option => (
@@ -291,6 +294,9 @@ export default function Flashcard({
           </Card>
         </div>
       </div>
+      
+      {/* Added more vertical space here for better mobile experience */}
+      <div className="h-4 sm:h-8"></div>
       
       {showNavigation && (
         <div className="flex flex-col sm:flex-row justify-between mt-4 sm:mt-6 gap-2 sm:gap-0">
