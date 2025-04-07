@@ -43,7 +43,7 @@ export default function TestMode({
   const startTimeRef = useRef<number | null>(null);
   const [testQuestions, setTestQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<Map<number, { isCorrect: boolean; selectedAnswers: string[] }>>(new Map());
+  const [answers, setAnswers] = useState<Record<number, { isCorrect: boolean; selectedAnswers: string[] }>>({});
   const [timeRemaining, setTimeRemaining] = useState(timeLimit * 60); // convert to seconds
   const [isTestComplete, setIsTestComplete] = useState(false);
   const [showTimeWarning, setShowTimeWarning] = useState(false);
@@ -174,9 +174,10 @@ export default function TestMode({
   // Handle answer submission
   const handleAnswerSubmit = (isCorrect: boolean, selectedAnswers: string[]) => {
     setAnswers(prev => {
-      const newAnswers = new Map(prev);
-      newAnswers.set(currentQuestionIndex, { isCorrect, selectedAnswers });
-      return newAnswers;
+      return {
+        ...prev,
+        [currentQuestionIndex]: { isCorrect, selectedAnswers }
+      };
     });
   };
 
@@ -205,13 +206,13 @@ export default function TestMode({
       ? Math.floor((Date.now() - startTimeRef.current) / 1000) 
       : timeLimit * 60 - timeRemaining;
     
-    const correctAnswers = Array.from(answers.values()).filter(a => a.isCorrect).length;
-    const incorrectAnswers = Array.from(answers.values()).filter(a => !a.isCorrect).length;
+    const correctAnswers = Object.values(answers).filter(a => a.isCorrect).length;
+    const incorrectAnswers = Object.values(answers).filter(a => !a.isCorrect).length;
     const skippedQuestions = testQuestions.length - correctAnswers - incorrectAnswers;
     
     // Create detailed question results
     const questionResults = testQuestions.map((question, index) => {
-      const answer = answers.get(index);
+      const answer = answers[index];
       return {
         questionId: question.id,
         isCorrect: answer?.isCorrect || false,
@@ -246,7 +247,7 @@ export default function TestMode({
   };
 
   // Calculate progress percentage
-  const progressPercentage = (answers.size / testQuestions.length) * 100;
+  const progressPercentage = (Object.keys(answers).length / testQuestions.length) * 100;
 
   // If test hasn't started yet, show the start screen
   if (!testStarted) {
@@ -405,7 +406,7 @@ export default function TestMode({
                   Question {currentQuestionIndex + 1} of {testQuestions.length}
                 </div>
                 <div className="text-sm text-slate-400">
-                  {answers.size} of {testQuestions.length} answered
+                  {Object.keys(answers).length} of {testQuestions.length} answered
                 </div>
               </div>
               <Progress value={progressPercentage} className="h-2 bg-slate-700" />

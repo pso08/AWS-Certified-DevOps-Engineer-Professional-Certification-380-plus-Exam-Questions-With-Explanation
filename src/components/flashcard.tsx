@@ -209,7 +209,7 @@ export default function Flashcard({
                 </div>
               </div>
               
-              <div className="flex-grow overflow-y-auto" style={{ maxHeight: "min(300px, calc(100vh - 300px))" }}>
+              <div className="flex-grow overflow-y-auto border border-slate-600 rounded-lg p-4 bg-slate-800/50" style={{ maxHeight: "min(300px, calc(100vh - 300px))" }}>
                 <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-4">Question</h3>
                 <p className="text-base sm:text-lg mb-4 break-words whitespace-normal">{question.text}</p>
                 
@@ -262,7 +262,7 @@ export default function Flashcard({
             <div className="flex flex-col h-full">
               <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-4">Answer</h3>
               
-              <div className="flex-grow overflow-y-auto" style={{ maxHeight: "min(300px, calc(100vh - 300px))" }}>
+              <div className="flex-grow overflow-y-auto border border-slate-600 rounded-lg p-4 bg-slate-800/50" style={{ maxHeight: "min(300px, calc(100vh - 300px))" }}>
                 <div className="mb-4">
                   <h4 className="font-medium mb-2">Correct Answer:</h4>
                   <p className="break-words whitespace-normal">
@@ -296,7 +296,7 @@ export default function Flashcard({
       </div>
       
       {/* Added more vertical space here for better mobile experience */}
-      <div className="h-4 sm:h-8"></div>
+      <div className="h-8 sm:h-12"></div>
       
       {showNavigation && (
         <div className="flex flex-col sm:flex-row justify-between mt-4 sm:mt-6 gap-2 sm:gap-0">
