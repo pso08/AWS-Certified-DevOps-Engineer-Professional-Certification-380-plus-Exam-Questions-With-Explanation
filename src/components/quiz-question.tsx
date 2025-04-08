@@ -127,7 +127,7 @@ export default function QuizQuestion({
         <div className="space-y-3">
           {question.options.map(option => (
             <div key={option.id} className="flex items-start space-x-3">
-              <div className="flex h-4 w-4 shrink-0 rounded-sm border border-primary items-center justify-center">
+              <div className="flex items-center justify-center h-4 w-4 shrink-0 rounded-sm border border-primary">
                 <Checkbox
                   id={`option-${option.id}`}
                   checked={selectedAnswers.includes(option.id)}
@@ -135,7 +135,7 @@ export default function QuizQuestion({
                     handleMultipleAnswerChange(checked as boolean, option.id)
                   }
                   disabled={submitted}
-                  className={`h-3 w-3 ${submitted && question.correctAnswers.includes(option.id) ? 'border-green-500' : ''}`}
+                  className="h-3 w-3 cursor-pointer"
                 />
               </div>
               <div className="grid gap-1.5 leading-none">
@@ -171,9 +171,7 @@ export default function QuizQuestion({
                 checked={selectedAnswers[0] === option.id}
                 onChange={() => handleSingleAnswerChange(option.id)}
                 disabled={submitted}
-                className={`h-4 w-4 rounded-full border border-primary text-primary ${
-                  submitted && question.correctAnswers.includes(option.id) ? 'border-green-500' : ''
-                }`}
+                className="h-4 w-4 rounded-full border border-primary cursor-pointer"
               />
               <Label
                 htmlFor={`option-${option.id}`}
