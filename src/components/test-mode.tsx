@@ -406,6 +406,9 @@ export default function TestMode({
           question={testQuestions[currentQuestionIndex]}
           onSubmit={handleAnswerSubmit}
           onNext={handleNextQuestion}
+          onPrevious={currentQuestionIndex > 0 ? handlePreviousQuestion : undefined}
+          initialSelectedAnswers={answers[currentQuestionIndex]?.selectedAnswers || []}
+          isAnswered={!!answers[currentQuestionIndex]}
           showTimer={false}
         />
       )}

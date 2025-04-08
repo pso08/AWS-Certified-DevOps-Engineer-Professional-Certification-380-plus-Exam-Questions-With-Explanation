@@ -45,31 +45,34 @@ export default function QuizQuestion({
 
   // Initialize state based on props when question changes
   useEffect(() => {
-    setSelectedAnswers(initialSelectedAnswers);
-    setSubmitted(isAnswered);
-    
-    // If the question is already answered, determine if it was correct
-    if (isAnswered && initialSelectedAnswers.length > 0) {
-      let correct = false;
+    // Only update state if the question ID changes or on initial render
+    if (question.id) {
+      setSelectedAnswers(initialSelectedAnswers);
+      setSubmitted(isAnswered);
       
-      if (question.isMultipleAnswer) {
-        const allCorrectAnswersSelected = question.correctAnswers.every(
-          answer => initialSelectedAnswers.includes(answer)
-        );
-        const noIncorrectAnswersSelected = initialSelectedAnswers.every(
-          answer => question.correctAnswers.includes(answer)
-        );
+      // If the question is already answered, determine if it was correct
+      if (isAnswered && initialSelectedAnswers.length > 0) {
+        let correct = false;
         
-        correct = allCorrectAnswersSelected && noIncorrectAnswersSelected;
+        if (question.isMultipleAnswer) {
+          const allCorrectAnswersSelected = question.correctAnswers.every(
+            answer => initialSelectedAnswers.includes(answer)
+          );
+          const noIncorrectAnswersSelected = initialSelectedAnswers.every(
+            answer => question.correctAnswers.includes(answer)
+          );
+          
+          correct = allCorrectAnswersSelected && noIncorrectAnswersSelected;
+        } else {
+          correct = question.correctAnswers.includes(initialSelectedAnswers[0]);
+        }
+        
+        setIsCorrect(correct);
       } else {
-        correct = question.correctAnswers.includes(initialSelectedAnswers[0]);
+        setIsCorrect(false);
       }
-      
-      setIsCorrect(correct);
-    } else {
-      setIsCorrect(false);
     }
-  }, [question.id, initialSelectedAnswers, isAnswered, question.correctAnswers, question.isMultipleAnswer]);
+  }, [question.id, isAnswered]); // Only depend on question.id and isAnswered
 
   // Handle single answer selection (radio buttons)
   const handleSingleAnswerChange = (value: string) => {
@@ -127,7 +130,7 @@ export default function QuizQuestion({
         <div className="space-y-3">
           {question.options.map(option => (
             <div key={option.id} className="flex items-start space-x-3">
-              <div className="flex items-center justify-center h-4 w-4 shrink-0 rounded-sm border border-primary">
+              <div className="flex items-center justify-center h-4 w-4 mt-1 shrink-0">
                 <Checkbox
                   id={`option-${option.id}`}
                   checked={selectedAnswers.includes(option.id)}
@@ -135,13 +138,13 @@ export default function QuizQuestion({
                     handleMultipleAnswerChange(checked as boolean, option.id)
                   }
                   disabled={submitted}
-                  className="h-3 w-3 cursor-pointer"
+                  className="h-4 w-4 cursor-pointer"
                 />
               </div>
               <div className="grid gap-1.5 leading-none">
                 <Label
                   htmlFor={`option-${option.id}`}
-                  className={`text-base ${
+                  className={`text-base cursor-pointer ${
                     submitted && question.correctAnswers.includes(option.id)
                       ? 'font-medium text-green-600 dark:text-green-400'
                       : ''
@@ -171,11 +174,11 @@ export default function QuizQuestion({
                 checked={selectedAnswers[0] === option.id}
                 onChange={() => handleSingleAnswerChange(option.id)}
                 disabled={submitted}
-                className="h-4 w-4 rounded-full border border-primary cursor-pointer"
+                className="h-4 w-4 mt-1 cursor-pointer"
               />
               <Label
                 htmlFor={`option-${option.id}`}
-                className={`text-base ${
+                className={`text-base cursor-pointer ${
                   submitted && question.correctAnswers.includes(option.id)
                     ? 'font-medium text-green-600 dark:text-green-400'
                     : ''
