@@ -266,7 +266,7 @@ export default function Flashcard({
                 <div className="mb-4">
                   <h4 className="font-medium mb-2">Correct Answer:</h4>
                   <p className="break-words whitespace-normal">
-                    {question.correctAnswers.join(' and ')}
+                    Correct Answer: {question.correctAnswers.join(' and ')}
                   </p>
                   <ul className="list-disc pl-5 break-words whitespace-normal mt-2">
                     {question.options

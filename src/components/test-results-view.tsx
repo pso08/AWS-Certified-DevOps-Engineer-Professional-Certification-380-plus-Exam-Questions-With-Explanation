@@ -11,7 +11,8 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { TestResults, Domain } from '@/lib/types';
+import { TestResults } from './test-mode';
+import { Domain } from '@/lib/types';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BarChart, CheckCircle, XCircle, Clock, Award } from 'lucide-react';
 

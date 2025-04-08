@@ -230,7 +230,7 @@ export default function QuizQuestion({
               <div className="mb-2">
                 <span className="font-medium">Correct Answer: </span>
                 <div className="break-words whitespace-normal">
-                  {question.correctAnswers.join(' and ')}
+                  Correct Answer: {question.correctAnswers.join(' and ')}
                 </div>
               </div>
               <div className="mt-2">

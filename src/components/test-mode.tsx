@@ -12,7 +12,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { Question, Domain, TestResults } from '@/lib/types';
+import { Question, Domain } from '@/lib/types';
 import QuizQuestion from './quiz-question';
 import { Clock, AlertTriangle, Pause, Play, RotateCw } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -22,6 +22,26 @@ interface TestModeProps {
   questions: Question[];
   onComplete: (results: TestResults) => void;
   timeLimit?: number; // in minutes, default is 180 (3 hours) like the real exam
+}
+
+export interface TestResults {
+  totalQuestions: number;
+  correctAnswers: number;
+  incorrectAnswers: number;
+  skippedQuestions: number;
+  timeTaken: number; // in seconds
+  questionResults: {
+    questionId: string;
+    isCorrect: boolean;
+    selectedAnswers: string[];
+    timeTaken: number; // in seconds
+    domain: Domain;
+  }[];
+  domainResults: {
+    domain: Domain;
+    totalQuestions: number;
+    correctAnswers: number;
+  }[];
 }
 
 // Domain distribution according to AWS exam
@@ -116,7 +136,7 @@ export default function TestMode({
   // Reset the test
   const handleResetTest = () => {
     setCurrentQuestionIndex(0);
-    setAnswers(new Map());
+    setAnswers({});
     setTimeRemaining(timeLimit * 60);
     setIsTestComplete(false);
     setShowTimeWarning(false);
@@ -218,7 +238,7 @@ export default function TestMode({
         isCorrect: answer?.isCorrect || false,
         selectedAnswers: answer?.selectedAnswers || [],
         timeTaken: 0, // We don't track time per question in this implementation
-        domain: question.domain || Domain.SDLC_AUTOMATION // Default to SDLC if domain is missing
+        domain: question.domain
       };
     });
     
@@ -253,10 +273,10 @@ export default function TestMode({
   if (!testStarted) {
     return (
       <div className="w-full max-w-4xl mx-auto">
-        <Card className="bg-slate-800 border-slate-700 text-white">
+        <Card className="mb-6">
           <CardHeader>
             <CardTitle>AWS DevOps Professional Practice Test</CardTitle>
-            <CardDescription className="text-slate-300">
+            <CardDescription>
               This practice test simulates the actual AWS Certified DevOps Engineer - Professional exam.
             </CardDescription>
           </CardHeader>
@@ -265,7 +285,7 @@ export default function TestMode({
             <div className="space-y-4">
               <div>
                 <h3 className="text-lg font-semibold">Exam Format</h3>
-                <ul className="list-disc pl-5 mt-2 space-y-1 text-slate-300">
+                <ul className="list-disc pl-5 mt-2 space-y-1">
                   <li><strong>Number of Questions:</strong> 75 questions</li>
                   <li><strong>Duration:</strong> 180 minutes (3 hours)</li>
                   <li><strong>Question Types:</strong> Multiple choice and multiple answer</li>
@@ -274,10 +294,10 @@ export default function TestMode({
               
               <div>
                 <h3 className="text-lg font-semibold">Exam Content</h3>
-                <p className="text-sm text-slate-400 mb-2">
+                <p className="text-sm text-muted-foreground mb-2">
                   The exam focuses on advanced technical skills and knowledge in the following domains:
                 </p>
-                <ul className="list-disc pl-5 space-y-1 text-slate-300">
+                <ul className="list-disc pl-5 space-y-1">
                   <li>SDLC Automation (22%)</li>
                   <li>Configuration Management and Infrastructure as Code (19%)</li>
                   <li>Monitoring and Logging (15%)</li>
@@ -289,32 +309,17 @@ export default function TestMode({
               
               <div>
                 <h3 className="text-lg font-semibold">Test Features</h3>
-                <ul className="list-disc pl-5 mt-2 space-y-1 text-slate-300">
+                <ul className="list-disc pl-5 mt-2 space-y-1">
                   <li><strong>Pause/Resume:</strong> You can pause the test up to 10 times</li>
-                  <li><strong>Navigation:</strong> You can move back and forth between questions</li>
-                  <li><strong>Time Tracking:</strong> A timer shows your remaining time</li>
-                  <li><strong>Domain Analysis:</strong> Detailed results by domain area</li>
+                  <li><strong>Reset:</strong> You can reset the test at any time to start over</li>
+                  <li><strong>Domain Distribution:</strong> Questions are distributed according to the actual exam domains</li>
                 </ul>
               </div>
-              
-              <Alert className="bg-blue-900/30 border-blue-800 mt-4">
-                <AlertTitle className="flex items-center text-blue-400">
-                  <AlertTriangle className="h-4 w-4 mr-2" />
-                  Important Information
-                </AlertTitle>
-                <AlertDescription className="text-slate-300">
-                  This test is designed to simulate the real exam experience. Once you start, the timer will begin counting down.
-                  You can pause the test if needed, but you are limited to 10 pauses to maintain exam-like conditions.
-                </AlertDescription>
-              </Alert>
             </div>
           </CardContent>
           
-          <CardFooter className="flex justify-end">
-            <Button 
-              onClick={handleStartTest}
-              className="bg-blue-600 hover:bg-blue-700"
-            >
+          <CardFooter>
+            <Button onClick={handleStartTest} className="w-full">
               Start Test
             </Button>
           </CardFooter>
@@ -323,142 +328,124 @@ export default function TestMode({
     );
   }
 
-  // If test is in progress, show the question
-  if (!isTestComplete && testQuestions.length > 0) {
-    const currentQuestion = testQuestions[currentQuestionIndex];
-    const currentAnswer = answers.get(currentQuestionIndex);
-    
-    return (
-      <div className="w-full max-w-4xl mx-auto">
-        <div className="mb-4 flex flex-col sm:flex-row justify-between items-center gap-2">
-          <div className="flex items-center gap-2">
-            <Button 
-              variant="outline" 
-              size="sm"
-              onClick={handleTogglePause}
-              disabled={pauseCount >= 10 && !isPaused}
-              className="border-slate-600 text-white hover:bg-slate-700"
-            >
-              {isPaused ? (
-                <>
-                  <Play className="h-4 w-4 mr-2" />
-                  Resume
-                </>
-              ) : (
-                <>
-                  <Pause className="h-4 w-4 mr-2" />
-                  Pause ({10 - pauseCount} left)
-                </>
-              )}
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              size="sm"
-              onClick={handleResetTest}
-              className="border-slate-600 text-white hover:bg-slate-700"
-            >
-              <RotateCw className="h-4 w-4 mr-2" />
-              Reset
-            </Button>
-          </div>
-          
-          <div className="flex items-center gap-2">
-            <Clock className="h-4 w-4 text-slate-400" />
-            <span className={`font-mono ${timeRemaining < 600 ? 'text-red-500' : 'text-white'}`}>
-              {formatTime(timeRemaining)}
-            </span>
-          </div>
-        </div>
-        
-        {showTimeWarning && (
-          <Alert variant="destructive" className="mb-4">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Time Warning</AlertTitle>
-            <AlertDescription>
-              You have less than 10 minutes remaining.
-            </AlertDescription>
-          </Alert>
-        )}
-        
-        {isPaused ? (
-          <Card className="bg-slate-800 border-slate-700 text-white">
-            <CardContent className="pt-6 flex flex-col items-center justify-center min-h-[400px]">
-              <Pause className="h-16 w-16 text-slate-400 mb-4" />
-              <h2 className="text-2xl font-bold mb-2">Test Paused</h2>
-              <p className="text-slate-300 mb-6 text-center">
-                The timer has been paused. Click Resume to continue the test.
-              </p>
-              <Button 
-                onClick={() => setIsPaused(false)}
-                className="bg-blue-600 hover:bg-blue-700"
-              >
-                <Play className="h-4 w-4 mr-2" />
-                Resume Test
-              </Button>
-            </CardContent>
-          </Card>
-        ) : (
-          <>
-            <div className="mb-4">
-              <div className="flex justify-between items-center mb-1">
-                <div className="text-sm text-slate-400">
-                  Question {currentQuestionIndex + 1} of {testQuestions.length}
-                </div>
-                <div className="text-sm text-slate-400">
-                  {Object.keys(answers).length} of {testQuestions.length} answered
-                </div>
-              </div>
-              <Progress value={progressPercentage} className="h-2 bg-slate-700" />
-            </div>
-            
-            <QuizQuestion
-              question={currentQuestion}
-              onSubmit={handleAnswerSubmit}
-              onNext={handleNextQuestion}
-              showTimer={false}
-            />
-            
-            <div className="mt-4 flex justify-between">
-              <Button 
-                variant="outline" 
-                onClick={handlePreviousQuestion}
-                disabled={currentQuestionIndex === 0}
-                className="border-slate-600 text-white hover:bg-slate-700"
-              >
-                Previous
-              </Button>
-              
-              <Button 
-                variant="outline" 
-                onClick={handleNextQuestion}
-                className="border-slate-600 text-white hover:bg-slate-700"
-              >
-                {currentQuestionIndex < testQuestions.length - 1 ? 'Next' : 'Finish Test'}
-              </Button>
-            </div>
-          </>
-        )}
-      </div>
-    );
-  }
-
-  // This should never happen, but just in case
   return (
     <div className="w-full max-w-4xl mx-auto">
-      <Card className="bg-slate-800 border-slate-700 text-white">
-        <CardContent className="pt-6">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold mb-4">Loading Test...</h2>
-            <Button 
-              onClick={handleResetTest}
-              className="bg-blue-600 hover:bg-blue-700"
-            >
-              Reset Test
-            </Button>
+      <Card className="mb-6">
+        <CardHeader>
+          <div className="flex justify-between items-center">
+            <CardTitle>AWS DevOps Professional Practice Test</CardTitle>
+            <div className="flex items-center gap-2">
+              <Clock className="h-5 w-5" />
+              <span className="font-medium">{formatTime(timeRemaining)}</span>
+            </div>
+          </div>
+        </CardHeader>
+        
+        <CardContent>
+          <div className="space-y-4">
+            <div className="flex justify-between text-sm">
+              <span>Question {currentQuestionIndex + 1} of {testQuestions.length}</span>
+              <span>{Math.round(progressPercentage)}% Complete</span>
+            </div>
+            
+            <Progress value={progressPercentage} className="w-full" />
+            
+            {showTimeWarning && (
+              <Alert variant="warning" className="mt-4">
+                <AlertTriangle className="h-4 w-4" />
+                <AlertTitle>Time Warning</AlertTitle>
+                <AlertDescription>
+                  You have less than 10 minutes remaining to complete the test.
+                </AlertDescription>
+              </Alert>
+            )}
+            
+            <div className="flex justify-between items-center">
+              <div>
+                <span className="text-sm text-muted-foreground">
+                  Pauses remaining: {10 - pauseCount}
+                </span>
+              </div>
+              
+              <div className="flex gap-2">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={handleTogglePause}
+                  disabled={isTestComplete || pauseCount >= 10 && !isPaused}
+                >
+                  {isPaused ? (
+                    <>
+                      <Play className="mr-2 h-4 w-4" />
+                      Resume
+                    </>
+                  ) : (
+                    <>
+                      <Pause className="mr-2 h-4 w-4" />
+                      Pause
+                    </>
+                  )}
+                </Button>
+                
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={handleResetTest}
+                >
+                  <RotateCw className="mr-2 h-4 w-4" />
+                  Reset
+                </Button>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
+      
+      {!isTestComplete && testQuestions.length > 0 && currentQuestionIndex < testQuestions.length && !isPaused && (
+        <QuizQuestion
+          question={testQuestions[currentQuestionIndex]}
+          onSubmit={handleAnswerSubmit}
+          onNext={handleNextQuestion}
+          showTimer={false}
+        />
+      )}
+      
+      {isPaused && (
+        <Card className="my-8 p-6 text-center">
+          <h2 className="text-2xl font-bold mb-4">Test Paused</h2>
+          <p className="mb-6">The test timer has been paused. Click Resume to continue.</p>
+          <Button onClick={handleTogglePause}>
+            <Play className="mr-2 h-4 w-4" />
+            Resume Test
+          </Button>
+        </Card>
+      )}
+      
+      <div className="flex justify-between mt-6">
+        <Button 
+          variant="outline" 
+          onClick={handlePreviousQuestion}
+          disabled={currentQuestionIndex === 0 || isTestComplete || isPaused}
+        >
+          Previous
+        </Button>
+        
+        <Button 
+          variant="destructive" 
+          onClick={handleTestComplete}
+          disabled={isTestComplete || isPaused}
+        >
+          End Test
+        </Button>
+        
+        <Button 
+          variant="outline" 
+          onClick={handleNextQuestion}
+          disabled={currentQuestionIndex === testQuestions.length - 1 || isTestComplete || isPaused}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
 }
