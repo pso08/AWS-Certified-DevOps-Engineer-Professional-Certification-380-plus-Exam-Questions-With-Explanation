@@ -13,7 +13,6 @@ import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Question } from '@/lib/types';
 import { ChevronLeft, ChevronRight, RotateCw, CheckCircle2, AlertCircle } from 'lucide-react';
@@ -151,21 +150,20 @@ export default function Flashcard({
     } else {
       // Render radio buttons for single-answer questions
       return (
-        <RadioGroup
-          value={selectedAnswers[0] || ''}
-          onValueChange={handleSingleAnswerChange}
-          disabled={submitted}
-          className="space-y-3"
-        >
+        <div className="space-y-3">
           {question.options.map(option => (
             <div key={option.id} className="flex items-start space-x-3">
-              <RadioGroupItem
-                value={option.id}
+              <input
+                type="radio"
                 id={`option-${option.id}`}
+                name="single-answer"
+                value={option.id}
+                checked={selectedAnswers[0] === option.id}
+                onChange={() => handleSingleAnswerChange(option.id)}
                 disabled={submitted}
-                className={submitted ? (
-                  question.correctAnswers.includes(option.id) ? 'border-green-500' : ''
-                ) : ''}
+                className={`h-4 w-4 rounded-full border border-primary text-primary ${
+                  submitted && question.correctAnswers.includes(option.id) ? 'border-green-500' : ''
+                }`}
               />
               <Label
                 htmlFor={`option-${option.id}`}
@@ -179,7 +177,7 @@ export default function Flashcard({
               </Label>
             </div>
           ))}
-        </RadioGroup>
+        </div>
       );
     }
   };
@@ -266,7 +264,7 @@ export default function Flashcard({
                 <div className="mb-4">
                   <h4 className="font-medium mb-2">Correct Answer:</h4>
                   <p className="break-words whitespace-normal">
-                    Correct Answer: {question.correctAnswers.join(' and ')}
+                    {question.correctAnswers.join(' and ')}
                   </p>
                   <ul className="list-disc pl-5 break-words whitespace-normal mt-2">
                     {question.options
