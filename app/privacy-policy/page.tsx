@@ -157,11 +157,11 @@ export default function PrivacyPolicyPage() {
             
             <h2 className="text-xl font-semibold mt-6 mb-3">12. Contact Information</h2>
             <p>
-              If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us at:
+              If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us using the contact form or write us an email.
             </p>
             <ul className="list-disc pl-6 space-y-1 mb-4">
               <li>Email: admin@duinx.com</li>
-              <li>Mailing Address: Dallas Texas, 75231</li>
+              <li>Address: Dallas Texas, 75231</li>
             </ul>
           </CardContent>
           <CardFooter className="flex justify-between border-t border-slate-700 pt-6">

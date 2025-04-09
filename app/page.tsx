@@ -10,7 +10,7 @@ export default function Home() {
             AWS Certified DevOps Engineer Professional
           </h1>
           <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto">
-            Prepare for your certification with our comprehensive quiz application featuring 350+ exam questions with detailed explanations
+            Prepare for your certification with our comprehensive quiz application featuring 380+ exam questions with detailed explanations
           </p>
         </header>
 

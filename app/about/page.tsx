@@ -28,24 +28,24 @@ export default function AboutPage() {
           <CardContent className="space-y-6">
             <div className="space-y-4">
               <p className="text-slate-300 leading-relaxed">
-                Purposeful professional with a solid grasp of cloud architecture and DevOps principles,
-                supported practical experience in architecting, building, and managing cloud infrastructure
-                alongside implementing automation solutions.
+                I bring a deep mastery of cloud architecture and DevOps principles, backed by hands-on 
+                experience in architecting, building, and managing scalable cloud infrastructures,
+                alongside delivering cutting-edge automation solutions that empower operational excellence.
               </p>
               
               <p className="text-slate-300 leading-relaxed">
-                Proficient in key areas, including CI/CD, infrastructure as code, hybrid cloud environments, 
-                and effective cross-team collaboration.
+                I deliver expertise in CI/CD, infrastructure as code, hybrid cloud environments, and strategic
+                cross-team collaboration—powering scalable, efficient solutions that drive innovation and operational excellence.
               </p>
               
               <p className="text-slate-300 leading-relaxed">
-                Actively seeking employment opportunities in DevOps to leverage and enhance skills in
-                automation, scalable architecture design, and the seamless integration of cloud services with
-                on-premises systems.
+                I offer specialized DevOps solutions that capitalize on advanced automation, scalable architecture design,
+                and seamless integration of cloud services with on-premises systems to drive operational efficiency and
+                digital transformation.
               </p>
               
               <p className="text-slate-300 leading-relaxed">
-                Eager to contribute to and thrive within a dynamic professional environment, actively expanding expertise.
+                I excel in dynamic professional settings by consistently advancing my expertise and delivering innovative solutions that drive business success.
               </p>
             </div>
             
