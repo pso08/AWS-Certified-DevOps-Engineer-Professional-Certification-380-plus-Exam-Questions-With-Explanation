@@ -185,13 +185,7 @@ export default function ContactPage() {
           </CardFooter>
         </Card>
         
-        <div className="mt-8 text-center">
-          <Link href="/privacy-policy">
-            <Button variant="outline" className="border-slate-600 text-white hover:bg-slate-700">
-              Privacy Policy
-            </Button>
-          </Link>
-        </div>
+
       </div>
     </div>
   );

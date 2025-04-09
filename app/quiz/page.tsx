@@ -260,7 +260,14 @@ export default function QuizPage() {
       <div className="w-full max-w-3xl">
         <div className="flex justify-between items-center mb-4">
           <div className="text-sm text-slate-400">Question {currentQuestion + 1} of {quizQuestions.length}</div>
-          <div className="text-sm text-slate-400">Score: {score}/{quizQuestions.length}</div>
+          <div className="flex items-center gap-4">
+            <div className="text-sm text-slate-400">Score: {score}/{quizQuestions.length}</div>
+            <Link href="/">
+              <Button variant="outline" className="border-slate-600 text-white hover:bg-slate-700 text-xs py-1 px-2 h-auto">
+                Back to Home
+              </Button>
+            </Link>
+          </div>
         </div>
         <Progress value={progress} className="h-2 bg-slate-700 mb-6" />
         

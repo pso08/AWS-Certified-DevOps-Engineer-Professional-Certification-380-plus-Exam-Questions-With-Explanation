@@ -35,7 +35,7 @@ export default function AboutPage() {
               
               <p className="text-slate-300 leading-relaxed">
                 I deliver expertise in CI/CD, infrastructure as code, hybrid cloud environments, and strategic
-                cross-team collaboration—powering scalable, efficient solutions that drive innovation and operational excellence.
+                cross-team collaboration — powering scalable, efficient solutions that drive innovation and operational excellence.
               </p>
               
               <p className="text-slate-300 leading-relaxed">
@@ -83,14 +83,6 @@ export default function AboutPage() {
             <Button variant="outline" className="border-slate-600 text-white hover:bg-slate-700 w-full sm:w-auto">
               <Linkedin className="mr-2 h-4 w-4" />
               LinkedIn
-            </Button>
-            <Button variant="outline" className="border-slate-600 text-white hover:bg-slate-700 w-full sm:w-auto">
-              <Github className="mr-2 h-4 w-4" />
-              GitHub
-            </Button>
-            <Button variant="outline" className="border-slate-600 text-white hover:bg-slate-700 w-full sm:w-auto">
-              <FileText className="mr-2 h-4 w-4" />
-              Resume
             </Button>
           </CardFooter>
         </Card>
