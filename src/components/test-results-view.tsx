@@ -251,9 +251,11 @@ export default function TestResultsView({
         </CardContent>
         
         <CardFooter className="flex justify-between">
-          <Button variant="outline" onClick={onClose} className="border-slate-600 text-white hover:bg-slate-700">
-            Return to Dashboard
-          </Button>
+          <a href="/test/dashboard">
+            <Button variant="outline" className="border-slate-600 text-white hover:bg-slate-700">
+              Return to Dashboard
+            </Button>
+          </a>
           <Button onClick={onRetake} className="bg-blue-600 hover:bg-blue-700">
             Retake Test
           </Button>

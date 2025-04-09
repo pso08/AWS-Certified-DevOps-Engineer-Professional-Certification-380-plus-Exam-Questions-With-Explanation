@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../../src/components/ui/card';
 import { Button } from '../../src/components/ui/button';
+import Link from 'next/link';
 import { FlashcardQuestion } from '../../src/lib/types';
 import questionsData from '../../questions.json';
 
@@ -111,7 +112,14 @@ export default function FlashcardsPage() {
     <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center p-4">
       <div className="w-full max-w-3xl mx-auto px-4 sm:px-6">
         <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-2">
-          <h1 className="text-xl sm:text-2xl font-bold">AWS DevOps Flashcards</h1>
+          <div className="flex items-center gap-4">
+            <h1 className="text-xl sm:text-2xl font-bold">AWS DevOps Flashcards</h1>
+            <Link href="/">
+              <Button variant="outline" className="border-slate-600 text-white hover:bg-slate-700">
+                Back to Home
+              </Button>
+            </Link>
+          </div>
           <div className="text-sm text-slate-400">
             Card {currentCard + 1} of {flashcardQuestions.length}
           </div>
