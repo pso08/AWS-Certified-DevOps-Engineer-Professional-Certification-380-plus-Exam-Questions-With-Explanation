@@ -6,120 +6,100 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { 
+  BarChart, 
   Users, 
-  CreditCard, 
-  Tag, 
-  Home, 
-  LogOut, 
-  UserPlus, 
-  Download, 
-  Settings,
-  BarChart
+  BookOpen, 
+  FileText, 
+  Settings, 
+  PlusCircle, 
+  Shield, 
+  DollarSign,
+  Tag,
+  Percent
 } from 'lucide-react';
 
-export default function AdminDashboard() {
+// Mock analytics data
+const mockAnalytics = {
+  totalUsers: 1245,
+  activeUsers: 876,
+  premiumUsers: 342,
+  totalQuestions: 450,
+  totalTests: 3567,
+  averageScore: 72,
+  passRate: 68,
+  revenue: 12450,
+  growthRate: 15
+};
+
+// Mock recent user registrations
+const mockRecentUsers = [
+  { id: 1, name: 'John Doe', email: 'john@example.com', date: '2025-04-08', isPremium: true },
+  { id: 2, name: 'Jane Smith', email: 'jane@example.com', date: '2025-04-07', isPremium: false },
+  { id: 3, name: 'Robert Johnson', email: 'robert@example.com', date: '2025-04-07', isPremium: true },
+  { id: 4, name: 'Emily Davis', email: 'emily@example.com', date: '2025-04-06', isPremium: false },
+  { id: 5, name: 'Michael Wilson', email: 'michael@example.com', date: '2025-04-05', isPremium: true },
+];
+
+// Mock popular categories
+const mockPopularCategories = [
+  { name: 'EC2 & Compute', tests: 876, avgScore: 75 },
+  { name: 'S3 & Storage', tests: 754, avgScore: 68 },
+  { name: 'VPC & Networking', tests: 623, avgScore: 65 },
+  { name: 'IAM & Security', tests: 589, avgScore: 72 },
+  { name: 'Lambda & Serverless', tests: 456, avgScore: 70 },
+];
+
+export default function AdminDashboardPage() {
   const router = useRouter();
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [users, setUsers] = useState<any[]>([]);
-  const [newUserEmail, setNewUserEmail] = useState('');
-  const [newUserName, setNewUserName] = useState('');
-  const [newUserPassword, setNewUserPassword] = useState('');
-  const [couponCode, setCouponCode] = useState('');
-  const [couponDiscount, setCouponDiscount] = useState('');
   
-  // Check if user is admin
+  // Admin user state
+  const [user, setUser] = useState<{
+    id: string;
+    name: string;
+    email: string;
+    isAdmin: boolean;
+  } | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Analytics state
+  const [analytics, setAnalytics] = useState(mockAnalytics);
+  const [recentUsers, setRecentUsers] = useState(mockRecentUsers);
+  const [popularCategories, setPopularCategories] = useState(mockPopularCategories);
+  
+  // Load admin user data
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const session = JSON.parse(localStorage.getItem('user_session') || '{}');
-      if (!session.isLoggedIn || !session.isAdmin) {
-        router.push('/auth/login');
-      } else {
-        setIsAdmin(true);
+    const loadUserData = () => {
+      // In a real application, this would be a fetch request to get user data
+      // For this mock implementation, we'll use localStorage
+      if (typeof window !== 'undefined') {
+        const session = JSON.parse(localStorage.getItem('user_session') || '{}');
+        if (!session.isLoggedIn) {
+          router.push('/auth/login');
+          return;
+        }
         
-        // Load registered users
-        const registeredUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
-        setUsers(registeredUsers);
+        if (!session.isAdmin) {
+          router.push('/protected');
+          return;
+        }
+        
+        setUser({
+          id: session.userId || '1',
+          name: session.name || 'Admin',
+          email: session.email || 'admin@example.com',
+          isAdmin: true,
+        });
+        
+        setIsLoading(false);
       }
-      setLoading(false);
-    }
+    };
+    
+    loadUserData();
   }, [router]);
   
-  const handleLogout = () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('user_session');
-      router.push('/auth/login');
-    }
-  };
-  
-  const handleCreateFreeUser = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (typeof window !== 'undefined') {
-      const registeredUsers = JSON.parse(localStorage.getItem('registered_users') || '[]');
-      
-      // Check if email already exists
-      if (registeredUsers.some((u: any) => u.email === newUserEmail)) {
-        alert('Email already registered');
-        return;
-      }
-      
-      // Add new user with hasPaid set to true
-      registeredUsers.push({
-        name: newUserName,
-        email: newUserEmail,
-        password: newUserPassword,
-        createdAt: new Date().toISOString(),
-        hasPaid: true,
-        createdByAdmin: true
-      });
-      
-      localStorage.setItem('registered_users', JSON.stringify(registeredUsers));
-      setUsers(registeredUsers);
-      
-      // Reset form
-      setNewUserEmail('');
-      setNewUserName('');
-      setNewUserPassword('');
-      
-      alert('Free user account created successfully');
-    }
-  };
-  
-  const handleCreateCoupon = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (typeof window !== 'undefined') {
-      const coupons = JSON.parse(localStorage.getItem('discount_coupons') || '[]');
-      
-      // Check if coupon code already exists
-      if (coupons.some((c: any) => c.code === couponCode)) {
-        alert('Coupon code already exists');
-        return;
-      }
-      
-      // Add new coupon
-      coupons.push({
-        code: couponCode,
-        discount: parseInt(couponDiscount, 10),
-        createdAt: new Date().toISOString(),
-        active: true
-      });
-      
-      localStorage.setItem('discount_coupons', JSON.stringify(coupons));
-      
-      // Reset form
-      setCouponCode('');
-      setCouponDiscount('');
-      
-      alert('Discount coupon created successfully');
-    }
-  };
-  
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
@@ -127,275 +107,226 @@ export default function AdminDashboard() {
     );
   }
   
-  if (!isAdmin) {
-    return null; // Router will redirect, this prevents flash of content
-  }
-  
   return (
     <div className="min-h-screen bg-slate-900 text-white">
-      <div className="flex">
-        {/* Sidebar */}
-        <div className="w-64 bg-slate-800 min-h-screen p-4 hidden md:block">
-          <div className="mb-8">
-            <h2 className="text-xl font-bold">Admin Dashboard</h2>
-            <p className="text-slate-400 text-sm">Manage your application</p>
-          </div>
-          
-          <nav className="space-y-2">
-            <Link href="/admin/dashboard" className="flex items-center p-3 bg-slate-700 rounded-lg">
-              <BarChart className="mr-3 h-5 w-5 text-blue-400" />
-              <span>Dashboard</span>
-            </Link>
-            <Link href="/" className="flex items-center p-3 hover:bg-slate-700 rounded-lg">
-              <Home className="mr-3 h-5 w-5 text-slate-400" />
-              <span>View Site</span>
-            </Link>
-            <Link href="/admin/users" className="flex items-center p-3 hover:bg-slate-700 rounded-lg">
-              <Users className="mr-3 h-5 w-5 text-slate-400" />
-              <span>Users</span>
-            </Link>
-            <Link href="/admin/payments" className="flex items-center p-3 hover:bg-slate-700 rounded-lg">
-              <CreditCard className="mr-3 h-5 w-5 text-slate-400" />
-              <span>Payments</span>
-            </Link>
-            <Link href="/admin/resources" className="flex items-center p-3 hover:bg-slate-700 rounded-lg">
-              <Download className="mr-3 h-5 w-5 text-slate-400" />
-              <span>Resources</span>
-            </Link>
-            <Link href="/admin/settings" className="flex items-center p-3 hover:bg-slate-700 rounded-lg">
-              <Settings className="mr-3 h-5 w-5 text-slate-400" />
-              <span>Settings</span>
-            </Link>
-            <button 
-              onClick={handleLogout}
-              className="flex items-center p-3 hover:bg-slate-700 rounded-lg w-full text-left"
-            >
-              <LogOut className="mr-3 h-5 w-5 text-red-400" />
-              <span>Logout</span>
-            </button>
-          </nav>
-        </div>
-        
-        {/* Main content */}
-        <div className="flex-1 p-6">
-          <div className="flex justify-between items-center mb-8">
-            <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-            <div className="flex items-center gap-4">
-              <Link href="/">
-                <Button variant="outline" className="border-slate-600 text-white hover:bg-slate-700">
-                  <Home className="mr-2 h-4 w-4" />
-                  View Site
-                </Button>
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col md:flex-row gap-8">
+          {/* Sidebar */}
+          <div className="w-full md:w-64 space-y-4">
+            <div className="bg-slate-800 rounded-lg p-6 flex flex-col items-center">
+              <Avatar className="h-24 w-24 mb-4">
+                <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user?.name}`} alt={user?.name} />
+                <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
+              </Avatar>
+              <h2 className="text-xl font-bold">{user?.name}</h2>
+              <p className="text-slate-400 text-sm">{user?.email}</p>
+              <div className="mt-2 bg-amber-900/30 text-amber-400 px-2 py-1 rounded text-xs flex items-center">
+                <Shield className="h-3 w-3 mr-1" />
+                Admin
+              </div>
+            </div>
+            
+            <div className="bg-slate-800 rounded-lg p-4 space-y-2">
+              <Link href="/admin/dashboard" className="block p-2 bg-slate-700 rounded-lg">
+                <BarChart className="h-4 w-4 inline-block mr-2" />
+                Dashboard
               </Link>
-              <Button 
-                variant="outline" 
-                className="border-slate-600 text-white hover:bg-slate-700"
-                onClick={handleLogout}
-              >
-                <LogOut className="mr-2 h-4 w-4" />
-                Logout
-              </Button>
+              <Link href="/admin/users" className="block p-2 hover:bg-slate-700 rounded-lg">
+                <Users className="h-4 w-4 inline-block mr-2" />
+                User Management
+              </Link>
+              <Link href="/admin/categories" className="block p-2 hover:bg-slate-700 rounded-lg">
+                <Tag className="h-4 w-4 inline-block mr-2" />
+                Categories
+              </Link>
+              <Link href="/admin/content" className="block p-2 hover:bg-slate-700 rounded-lg">
+                <FileText className="h-4 w-4 inline-block mr-2" />
+                Content Management
+              </Link>
+              <Link href="/admin/coupons" className="block p-2 hover:bg-slate-700 rounded-lg">
+                <Percent className="h-4 w-4 inline-block mr-2" />
+                Coupon Management
+              </Link>
+              <Link href="/admin/settings" className="block p-2 hover:bg-slate-700 rounded-lg">
+                <Settings className="h-4 w-4 inline-block mr-2" />
+                Settings
+              </Link>
+              <Link href="/protected" className="block p-2 hover:bg-slate-700 rounded-lg">
+                Back to App
+              </Link>
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <Card className="bg-slate-800 border-slate-700 text-white">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg">Total Users</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-4xl font-bold">{users.length}</div>
-              </CardContent>
-            </Card>
-            
-            <Card className="bg-slate-800 border-slate-700 text-white">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg">Paid Users</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-4xl font-bold">
-                  {users.filter(u => u.hasPaid).length}
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Card className="bg-slate-800 border-slate-700 text-white">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg">Free Users</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-4xl font-bold">
-                  {users.filter(u => u.createdByAdmin).length}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-          
-          <Tabs defaultValue="users" className="w-full">
-            <TabsList className="bg-slate-800 mb-6">
-              <TabsTrigger value="users" className="data-[state=active]:bg-slate-700">
-                <UserPlus className="h-4 w-4 mr-2" />
-                Create Free User
-              </TabsTrigger>
-              <TabsTrigger value="coupons" className="data-[state=active]:bg-slate-700">
-                <Tag className="h-4 w-4 mr-2" />
-                Create Coupon
-              </TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="users">
-              <Card className="bg-slate-800 border-slate-700 text-white">
-                <CardHeader>
-                  <CardTitle>Create Free User Account</CardTitle>
-                  <CardDescription className="text-slate-300">
-                    Create accounts for users who qualify to use the app for free
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleCreateFreeUser} className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="user-name" className="text-white">Full Name</Label>
-                      <Input
-                        id="user-name"
-                        placeholder="John Doe"
-                        value={newUserName}
-                        onChange={(e) => setNewUserName(e.target.value)}
-                        required
-                        className="bg-slate-700 border-slate-600 text-white"
-                      />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="user-email" className="text-white">Email</Label>
-                      <Input
-                        id="user-email"
-                        type="email"
-                        placeholder="john@example.com"
-                        value={newUserEmail}
-                        onChange={(e) => setNewUserEmail(e.target.value)}
-                        required
-                        className="bg-slate-700 border-slate-600 text-white"
-                      />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="user-password" className="text-white">Password</Label>
-                      <Input
-                        id="user-password"
-                        type="password"
-                        placeholder="••••••••"
-                        value={newUserPassword}
-                        onChange={(e) => setNewUserPassword(e.target.value)}
-                        required
-                        className="bg-slate-700 border-slate-600 text-white"
-                      />
-                    </div>
-                    
-                    <Button 
-                      type="submit" 
-                      className="bg-blue-600 hover:bg-blue-700"
-                    >
-                      <UserPlus className="mr-2 h-4 w-4" />
-                      Create Free Account
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </TabsContent>
-            
-            <TabsContent value="coupons">
-              <Card className="bg-slate-800 border-slate-700 text-white">
-                <CardHeader>
-                  <CardTitle>Create Discount Coupon</CardTitle>
-                  <CardDescription className="text-slate-300">
-                    Create discount coupons for users to reduce the cost of using the app
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleCreateCoupon} className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="coupon-code" className="text-white">Coupon Code</Label>
-                      <Input
-                        id="coupon-code"
-                        placeholder="SUMMER2025"
-                        value={couponCode}
-                        onChange={(e) => setCouponCode(e.target.value)}
-                        required
-                        className="bg-slate-700 border-slate-600 text-white"
-                      />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="coupon-discount" className="text-white">Discount Percentage</Label>
-                      <Input
-                        id="coupon-discount"
-                        type="number"
-                        min="1"
-                        max="100"
-                        placeholder="25"
-                        value={couponDiscount}
-                        onChange={(e) => setCouponDiscount(e.target.value)}
-                        required
-                        className="bg-slate-700 border-slate-600 text-white"
-                      />
-                    </div>
-                    
-                    <Button 
-                      type="submit" 
-                      className="bg-blue-600 hover:bg-blue-700"
-                    >
-                      <Tag className="mr-2 h-4 w-4" />
-                      Create Coupon
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
-          
-          <div className="mt-8">
-            <h2 className="text-xl font-bold mb-4">Recent Users</h2>
-            <div className="bg-slate-800 border border-slate-700 rounded-lg overflow-hidden">
-              <table className="w-full">
-                <thead>
-                  <tr className="bg-slate-700">
-                    <th className="text-left p-4">Name</th>
-                    <th className="text-left p-4">Email</th>
-                    <th className="text-left p-4">Status</th>
-                    <th className="text-left p-4">Created</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.slice(0, 5).map((user, index) => (
-                    <tr key={index} className="border-t border-slate-700">
-                      <td className="p-4">{user.name}</td>
-                      <td className="p-4">{user.email}</td>
-                      <td className="p-4">
-                        {user.hasPaid ? (
-                          <span className="bg-green-900/30 text-green-400 px-2 py-1 rounded text-xs">
-                            {user.createdByAdmin ? 'Free Access' : 'Paid'}
-                          </span>
-                        ) : (
-                          <span className="bg-amber-900/30 text-amber-400 px-2 py-1 rounded text-xs">
-                            Unpaid
-                          </span>
-                        )}
-                      </td>
-                      <td className="p-4 text-slate-400">
-                        {new Date(user.createdAt).toLocaleDateString()}
-                      </td>
-                    </tr>
-                  ))}
-                  {users.length === 0 && (
-                    <tr>
-                      <td colSpan={4} className="p-4 text-center text-slate-400">
-                        No users registered yet
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+          {/* Main content */}
+          <div className="flex-1">
+            <div className="flex justify-between items-center mb-6">
+              <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+              <div className="flex gap-2">
+                <Button className="bg-blue-600 hover:bg-blue-700">
+                  <PlusCircle className="h-4 w-4 mr-2" />
+                  New User
+                </Button>
+              </div>
             </div>
+            
+            {/* Analytics Overview */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+              <Card className="bg-slate-800 border-slate-700 text-white">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-slate-400 text-sm">Total Users</p>
+                      <h3 className="text-3xl font-bold mt-1">{analytics.totalUsers}</h3>
+                      <p className="text-green-400 text-sm mt-1">
+                        +{analytics.growthRate}% from last month
+                      </p>
+                    </div>
+                    <div className="bg-blue-900/30 p-3 rounded-full">
+                      <Users className="h-6 w-6 text-blue-400" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-slate-800 border-slate-700 text-white">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-slate-400 text-sm">Premium Users</p>
+                      <h3 className="text-3xl font-bold mt-1">{analytics.premiumUsers}</h3>
+                      <p className="text-slate-400 text-sm mt-1">
+                        {Math.round((analytics.premiumUsers / analytics.totalUsers) * 100)}% of total users
+                      </p>
+                    </div>
+                    <div className="bg-amber-900/30 p-3 rounded-full">
+                      <Shield className="h-6 w-6 text-amber-400" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-slate-800 border-slate-700 text-white">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-slate-400 text-sm">Total Revenue</p>
+                      <h3 className="text-3xl font-bold mt-1">${analytics.revenue}</h3>
+                      <p className="text-green-400 text-sm mt-1">
+                        +{analytics.growthRate}% from last month
+                      </p>
+                    </div>
+                    <div className="bg-green-900/30 p-3 rounded-full">
+                      <DollarSign className="h-6 w-6 text-green-400" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+              {/* Recent Users */}
+              <Card className="bg-slate-800 border-slate-700 text-white">
+                <CardHeader>
+                  <CardTitle>Recent User Registrations</CardTitle>
+                  <CardDescription className="text-slate-300">
+                    Latest users who joined the platform
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {recentUsers.map((user) => (
+                      <div key={user.id} className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <Avatar className="h-10 w-10 mr-3">
+                            <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.name}`} alt={user.name} />
+                            <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <p className="font-medium">{user.name}</p>
+                            <p className="text-sm text-slate-400">{user.email}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center">
+                          {user.isPremium && (
+                            <div className="bg-amber-900/30 text-amber-400 px-2 py-1 rounded text-xs mr-3">
+                              Premium
+                            </div>
+                          )}
+                          <p className="text-sm text-slate-400">{new Date(user.date).toLocaleDateString()}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+                <CardFooter className="flex justify-center">
+                  <Link href="/admin/users">
+                    <Button variant="outline" className="border-slate-600 text-white hover:bg-slate-700">
+                      View All Users
+                    </Button>
+                  </Link>
+                </CardFooter>
+              </Card>
+              
+              {/* Popular Categories */}
+              <Card className="bg-slate-800 border-slate-700 text-white">
+                <CardHeader>
+                  <CardTitle>Popular Categories</CardTitle>
+                  <CardDescription className="text-slate-300">
+                    Most tested categories and average scores
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {popularCategories.map((category, index) => (
+                      <div key={index} className="flex items-center justify-between">
+                        <div>
+                          <p className="font-medium">{category.name}</p>
+                          <p className="text-sm text-slate-400">{category.tests} tests taken</p>
+                        </div>
+                        <div className="bg-slate-700 px-3 py-1 rounded-full">
+                          <p className="text-sm">
+                            Avg: <span className="font-bold">{category.avgScore}%</span>
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+                <CardFooter className="flex justify-center">
+                  <Link href="/admin/categories">
+                    <Button variant="outline" className="border-slate-600 text-white hover:bg-slate-700">
+                      Manage Categories
+                    </Button>
+                  </Link>
+                </CardFooter>
+              </Card>
+            </div>
+            
+            {/* Quick Actions */}
+            <Card className="bg-slate-800 border-slate-700 text-white">
+              <CardHeader>
+                <CardTitle>Quick Actions</CardTitle>
+                <CardDescription className="text-slate-300">
+                  Common administrative tasks
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <Button className="bg-blue-600 hover:bg-blue-700 h-auto py-4 flex flex-col items-center">
+                    <Users className="h-6 w-6 mb-2" />
+                    <span>Create Free Account</span>
+                  </Button>
+                  <Button className="bg-green-600 hover:bg-green-700 h-auto py-4 flex flex-col items-center">
+                    <Percent className="h-6 w-6 mb-2" />
+                    <span>Generate Coupon</span>
+                  </Button>
+                  <Button className="bg-purple-600 hover:bg-purple-700 h-auto py-4 flex flex-col items-center">
+                    <FileText className="h-6 w-6 mb-2" />
+                    <span>Add Study Material</span>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
