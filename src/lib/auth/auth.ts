@@ -23,7 +23,7 @@ const users: User[] = [
     id: '1',
     name: 'Admin User',
     email: 'admin@duinx.com',
-    password: '$2a$10$fRIPZDhttX6ENCLQCwR4geUiTi2RDOCt.kH9nLwAE2niCojeYkPl2', // 'admin'
+    password: '$2a$10$GQH.xZUBHMDqGYCLBZYJL.9Wf.4ZK6lZT5.fP6YH0Ld7x2OTsqULe', // 'admin'
     isAdmin: true,
     hasPaid: true,
     emailVerified: true
