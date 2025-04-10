@@ -1,85 +1,87 @@
-#!/usr/bin/env node
-
-/**
- * Post-build script to prepare the OpenNext output for Cloudflare Pages deployment
- * 
- * This script creates the proper directory structure expected by Cloudflare Pages
- * by copying files from the OpenNext output directory to the Cloudflare Pages
- * expected directory structure.
- */
-
+// This script handles post-build tasks for Cloudflare Pages deployment
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
 
-// Define paths
-const rootDir = path.resolve(__dirname, '..');
-const openNextDir = path.join(rootDir, '.open-next');
-const outputDir = path.join(rootDir, '.output');
-const outputPublicDir = path.join(outputDir, 'public');
-const nextStaticDir = path.join(rootDir, '.next', 'static');
-const publicDir = path.join(rootDir, 'public');
+// Ensure output directories exist
+const outputDir = path.join(process.cwd(), '.output');
+const publicDir = path.join(outputDir, 'public');
+const staticDir = path.join(publicDir, '_next', 'static');
 
-console.log('🚀 Starting post-build process for Cloudflare Pages deployment...');
-
-// Create output directories
-console.log('📁 Creating output directories...');
+// Create directories if they don't exist
 if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir, { recursive: true });
 }
-if (!fs.existsSync(outputPublicDir)) {
-  fs.mkdirSync(outputPublicDir, { recursive: true });
+
+if (!fs.existsSync(publicDir)) {
+  fs.mkdirSync(publicDir, { recursive: true });
 }
 
-// Copy worker.js to .output/
-console.log('📋 Copying worker.js...');
-if (fs.existsSync(path.join(openNextDir, 'worker.js'))) {
-  fs.copyFileSync(
-    path.join(openNextDir, 'worker.js'),
-    path.join(outputDir, 'worker.js')
-  );
-} else {
-  console.error('❌ worker.js not found in .open-next directory!');
-  process.exit(1);
+if (!fs.existsSync(staticDir)) {
+  fs.mkdirSync(staticDir, { recursive: true });
 }
 
-// Copy static assets to .output/public/_next/static
-console.log('📋 Copying static assets...');
-const outputNextStaticDir = path.join(outputPublicDir, '_next', 'static');
-if (fs.existsSync(nextStaticDir)) {
-  fs.mkdirSync(outputNextStaticDir, { recursive: true });
-  execSync(`cp -r ${nextStaticDir}/* ${outputNextStaticDir}`);
-} else {
-  console.warn('⚠️ .next/static directory not found, skipping static assets copy');
+// Copy necessary files from .next to .output
+const nextDir = path.join(process.cwd(), '.next');
+if (fs.existsSync(nextDir)) {
+  // Copy static assets
+  const nextStaticDir = path.join(nextDir, 'static');
+  if (fs.existsSync(nextStaticDir)) {
+    copyDirectory(nextStaticDir, staticDir);
+    console.log('✅ Copied static assets to .output/public/_next/static');
+  }
+
+  // Copy server files
+  const serverDir = path.join(nextDir, 'server');
+  const outputServerDir = path.join(outputDir, 'server');
+  if (fs.existsSync(serverDir)) {
+    if (!fs.existsSync(outputServerDir)) {
+      fs.mkdirSync(outputServerDir, { recursive: true });
+    }
+    copyDirectory(serverDir, outputServerDir);
+    console.log('✅ Copied server files to .output/server');
+  }
+
+  // Copy BUILD_ID file
+  const buildIdPath = path.join(nextDir, 'BUILD_ID');
+  if (fs.existsSync(buildIdPath)) {
+    fs.copyFileSync(buildIdPath, path.join(outputDir, 'BUILD_ID'));
+    console.log('✅ Copied BUILD_ID file to .output/');
+  }
 }
 
-// Copy public assets to .output/public
-console.log('📋 Copying public assets...');
-if (fs.existsSync(publicDir)) {
-  execSync(`cp -r ${publicDir}/* ${outputPublicDir}`);
-} else {
-  console.warn('⚠️ public directory not found, skipping public assets copy');
+// Copy public directory contents to .output/public
+const appPublicDir = path.join(process.cwd(), 'public');
+if (fs.existsSync(appPublicDir)) {
+  copyDirectory(appPublicDir, publicDir);
+  console.log('✅ Copied public directory to .output/public');
 }
 
-// Copy any other necessary files from .open-next to .output
-console.log('📋 Copying additional OpenNext assets...');
-if (fs.existsSync(path.join(openNextDir, 'static'))) {
-  execSync(`cp -r ${path.join(openNextDir, 'static')}/* ${outputPublicDir}`);
+// Copy worker.js if it exists from .open-next
+const openNextDir = path.join(process.cwd(), '.open-next');
+const workerPath = path.join(openNextDir, 'worker.js');
+if (fs.existsSync(workerPath)) {
+  fs.copyFileSync(workerPath, path.join(outputDir, 'worker.js'));
+  console.log('✅ Copied worker.js to .output/');
 }
 
-// Create a BUILD_ID file if it doesn't exist
-console.log('📋 Creating BUILD_ID file...');
-const buildIdPath = path.join(rootDir, '.next', 'BUILD_ID');
-const outputBuildIdPath = path.join(outputPublicDir, 'BUILD_ID');
-if (fs.existsSync(buildIdPath)) {
-  fs.copyFileSync(buildIdPath, outputBuildIdPath);
-} else {
-  // Generate a timestamp-based BUILD_ID if the original doesn't exist
-  fs.writeFileSync(outputBuildIdPath, new Date().toISOString());
-}
+console.log('✅ Post-build tasks completed successfully');
 
-console.log('✅ Post-build process completed successfully!');
-console.log('📂 Output directory structure:');
-execSync(`find ${outputDir} -type f | sort`).toString().split('\n').forEach(file => {
-  if (file) console.log(`  ${file}`);
-});
+// Helper function to copy a directory recursively
+function copyDirectory(source, destination) {
+  if (!fs.existsSync(destination)) {
+    fs.mkdirSync(destination, { recursive: true });
+  }
+
+  const files = fs.readdirSync(source);
+  for (const file of files) {
+    const sourcePath = path.join(source, file);
+    const destPath = path.join(destination, file);
+    
+    const stat = fs.statSync(sourcePath);
+    if (stat.isDirectory()) {
+      copyDirectory(sourcePath, destPath);
+    } else {
+      fs.copyFileSync(sourcePath, destPath);
+    }
+  }
+}
