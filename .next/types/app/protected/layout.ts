@@ -1,4 +1,4 @@
-// File: /home/ubuntu/fixed-app/package/app/protected/layout.tsx
+// File: /home/ubuntu/workspace/app/cloudflare-production-all-questions/app/protected/layout.tsx
 import * as entry from '../../../../app/protected/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

@@ -1,4 +1,4 @@
-// File: /home/ubuntu/fixed-app/package/app/api/auth/register/route.ts
+// File: /home/ubuntu/workspace/app/cloudflare-production-all-questions/app/api/auth/register/route.ts
 import * as entry from '../../../../../../app/api/auth/register/route.js'
 import type { NextRequest } from 'next/server.js'
 

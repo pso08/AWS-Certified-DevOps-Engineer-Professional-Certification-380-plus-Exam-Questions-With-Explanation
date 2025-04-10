@@ -1,4 +1,4 @@
-// File: /home/ubuntu/fixed-app/package/app/auth/verify-email/page.tsx
+// File: /home/ubuntu/workspace/app/cloudflare-production-all-questions/app/auth/verify-email/page.tsx
 import * as entry from '../../../../../app/auth/verify-email/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

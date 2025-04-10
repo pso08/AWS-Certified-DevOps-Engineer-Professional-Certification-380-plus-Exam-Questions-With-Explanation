@@ -1,4 +1,4 @@
-// This file configures the Cloudflare Pages deployment
+# This file configures the Cloudflare Pages deployment
 name = "aws-devops-quiz-app"
 compatibility_date = "2023-12-01"
 compatibility_flags = ["nodejs_compat"]

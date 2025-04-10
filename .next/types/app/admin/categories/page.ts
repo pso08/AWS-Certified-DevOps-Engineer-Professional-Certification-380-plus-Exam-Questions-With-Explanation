@@ -1,4 +1,4 @@
-// File: /home/ubuntu/fixed-app/package/app/admin/categories/page.tsx
+// File: /home/ubuntu/workspace/app/cloudflare-production-all-questions/app/admin/categories/page.tsx
 import * as entry from '../../../../../app/admin/categories/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

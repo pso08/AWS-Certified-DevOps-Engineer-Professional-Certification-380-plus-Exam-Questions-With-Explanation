@@ -1,4 +1,4 @@
-// File: /home/ubuntu/fixed-app/package/app/api/auth/forgot-password/route.ts
+// File: /home/ubuntu/workspace/app/cloudflare-production-all-questions/app/api/auth/forgot-password/route.ts
 import * as entry from '../../../../../../app/api/auth/forgot-password/route.js'
 import type { NextRequest } from 'next/server.js'
 

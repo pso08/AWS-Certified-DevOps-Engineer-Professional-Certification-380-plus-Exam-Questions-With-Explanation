@@ -1,4 +1,4 @@
-// File: /home/ubuntu/fixed-app/package/app/api/auth/verify-email/route.ts
+// File: /home/ubuntu/workspace/app/cloudflare-production-all-questions/app/api/auth/verify-email/route.ts
 import * as entry from '../../../../../../app/api/auth/verify-email/route.js'
 import type { NextRequest } from 'next/server.js'
 

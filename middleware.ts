@@ -1,8 +1,6 @@
 // Enhanced middleware with better error handling and TypeScript types
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
-import { authOptions } from '@/src/lib/auth/auth';
-import NextAuth from 'next-auth';
 
 // Define types for better code quality
 interface AuthToken {
@@ -13,27 +11,13 @@ interface AuthToken {
   name: string;
 }
 
-// Initialize NextAuth handler
-const handler = NextAuth(authOptions);
-
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
   try {
     // Handle NextAuth API routes
     if (pathname.startsWith('/api/auth')) {
-      const authPath = pathname.replace('/api/auth', '');
-      
-      if (authPath === '' || authPath === '/') {
-        // Handle root auth endpoint
-        if (request.method === 'GET') {
-          return handler.GET(request);
-        } else if (request.method === 'POST') {
-          return handler.POST(request);
-        }
-      }
-      
-      // For other auth endpoints, pass through to their respective handlers
+      // For auth endpoints, pass through to their respective handlers
       return NextResponse.next();
     }
     

@@ -1,4 +1,4 @@
-// File: /home/ubuntu/fixed-app/package/app/privacy-policy/page.tsx
+// File: /home/ubuntu/workspace/app/cloudflare-production-all-questions/app/privacy-policy/page.tsx
 import * as entry from '../../../../app/privacy-policy/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
