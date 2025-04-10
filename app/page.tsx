@@ -1,15 +1,10 @@
 'use client';
 
-import { redirect } from 'next/navigation';
-
+// Modified to bypass authentication completely
 export default function Home() {
+  // Redirect directly to protected content without authentication
   if (typeof window !== 'undefined') {
-    const session = JSON.parse(localStorage.getItem('user_session') || '{}');
-    if (!session.isLoggedIn) {
-      redirect('/auth/login');
-    } else {
-      redirect('/protected');
-    }
+    window.location.href = '/protected';
   }
   
   // This is a fallback for server-side rendering

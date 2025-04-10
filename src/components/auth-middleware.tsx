@@ -1,20 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-
+// Modified to bypass authentication completely
 export default function AuthMiddleware({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
-
-  useEffect(() => {
-    // Check if user is logged in
-    if (typeof window !== 'undefined') {
-      const session = JSON.parse(localStorage.getItem('user_session') || '{}');
-      if (!session.isLoggedIn) {
-        router.push('/auth/login');
-      }
-    }
-  }, [router]);
-
+  // No authentication checks, just render children directly
   return <>{children}</>;
 }
