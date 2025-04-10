@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Lock, User, LogIn, UserPlus, AlertCircle, Mail } from 'lucide-react';
+import { Lock, User, LogIn, UserPlus, AlertCircle, Mail, Eye, EyeOff } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import { z } from 'zod';
 
@@ -36,6 +36,7 @@ export default function LoginPage() {
   // Login state
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loginErrors, setLoginErrors] = useState<Record<string, string>>({});
   const [loginIsLoading, setLoginIsLoading] = useState(false);
   const [loginError, setLoginError] = useState('');
@@ -45,6 +46,8 @@ export default function LoginPage() {
   const [registerEmail, setRegisterEmail] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showRegisterPassword, setShowRegisterPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [registerErrors, setRegisterErrors] = useState<Record<string, string>>({});
   const [registerIsLoading, setRegisterIsLoading] = useState(false);
   const [registerError, setRegisterError] = useState('');
@@ -286,14 +289,27 @@ export default function LoginPage() {
                       </div>
                       <Input
                         id="password"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         placeholder="••••••••"
                         value={loginPassword}
                         onChange={(e) => setLoginPassword(e.target.value)}
-                        className={`bg-slate-700 border-slate-600 text-white pl-10 ${
+                        className={`bg-slate-700 border-slate-600 text-white pl-10 pr-10 ${
                           loginErrors.password ? 'border-red-500' : ''
                         }`}
                       />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-300 focus:outline-none"
+                        tabIndex={-1}
+                        aria-label={showPassword ? "Hide password" : "Show password"}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
                     </div>
                     {loginErrors.password && (
                       <p className="text-red-400 text-sm mt-1">{loginErrors.password}</p>
@@ -419,16 +435,34 @@ export default function LoginPage() {
                   
                   <div className="space-y-2">
                     <Label htmlFor="register-password" className="text-white">Password</Label>
-                    <Input
-                      id="register-password"
-                      type="password"
-                      placeholder="••••••••"
-                      value={registerPassword}
-                      onChange={(e) => setRegisterPassword(e.target.value)}
-                      className={`bg-slate-700 border-slate-600 text-white ${
-                        registerErrors.password ? 'border-red-500' : ''
-                      }`}
-                    />
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <Lock className="h-4 w-4 text-slate-400" />
+                      </div>
+                      <Input
+                        id="register-password"
+                        type={showRegisterPassword ? "text" : "password"}
+                        placeholder="••••••••"
+                        value={registerPassword}
+                        onChange={(e) => setRegisterPassword(e.target.value)}
+                        className={`bg-slate-700 border-slate-600 text-white pl-10 pr-10 ${
+                          registerErrors.password ? 'border-red-500' : ''
+                        }`}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowRegisterPassword(!showRegisterPassword)}
+                        className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-300 focus:outline-none"
+                        tabIndex={-1}
+                        aria-label={showRegisterPassword ? "Hide password" : "Show password"}
+                      >
+                        {showRegisterPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
+                    </div>
                     {registerErrors.password && (
                       <p className="text-red-400 text-sm mt-1">{registerErrors.password}</p>
                     )}
@@ -436,16 +470,34 @@ export default function LoginPage() {
                   
                   <div className="space-y-2">
                     <Label htmlFor="confirm-password" className="text-white">Confirm Password</Label>
-                    <Input
-                      id="confirm-password"
-                      type="password"
-                      placeholder="••••••••"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      className={`bg-slate-700 border-slate-600 text-white ${
-                        registerErrors.confirmPassword ? 'border-red-500' : ''
-                      }`}
-                    />
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <Lock className="h-4 w-4 text-slate-400" />
+                      </div>
+                      <Input
+                        id="confirm-password"
+                        type={showConfirmPassword ? "text" : "password"}
+                        placeholder="••••••••"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        className={`bg-slate-700 border-slate-600 text-white pl-10 pr-10 ${
+                          registerErrors.confirmPassword ? 'border-red-500' : ''
+                        }`}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-300 focus:outline-none"
+                        tabIndex={-1}
+                        aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                      >
+                        {showConfirmPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
+                    </div>
                     {registerErrors.confirmPassword && (
                       <p className="text-red-400 text-sm mt-1">{registerErrors.confirmPassword}</p>
                     )}

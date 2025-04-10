@@ -22,7 +22,7 @@ const users: User[] = [
   {
     id: '1',
     name: 'Admin User',
-    email: 'admin@example.com',
+    email: 'admin@duinx.com',
     password: '$2a$10$GQH.xZUBHMDqGYCLBZYJL.9Wf.4ZK6lZT5.fP6YH0Ld7x2OTsqULe', // 'admin'
     isAdmin: true,
     hasPaid: true,
