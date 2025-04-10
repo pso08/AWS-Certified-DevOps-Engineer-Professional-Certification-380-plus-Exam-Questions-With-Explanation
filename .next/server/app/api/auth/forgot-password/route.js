@@ -1,0 +1,17 @@
+"use strict";(()=>{var e={};e.id=118,e.ids=[118],e.modules={399:e=>{e.exports=require("next/dist/compiled/next-server/app-page.runtime.prod.js")},517:e=>{e.exports=require("next/dist/compiled/next-server/app-route.runtime.prod.js")},4770:e=>{e.exports=require("crypto")},349:(e,r,t)=>{t.r(r),t.d(r,{originalPathname:()=>h,patchFetch:()=>g,requestAsyncStorage:()=>c,routeModule:()=>d,serverHooks:()=>m,staticGenerationAsyncStorage:()=>w});var s={};t.r(s),t.d(s,{POST:()=>p});var o=t(9303),a=t(8716),n=t(670),i=t(7070),u=t(6523);let l=[{id:"1",name:"Admin User",email:"admin@example.com",password:"$2a$10$GQH.xZUBHMDqGYCLBZYJL.9Wf.4ZK6lZT5.fP6YH0Ld7x2OTsqULe",isAdmin:!0,hasPaid:!0,emailVerified:!0}];async function p(e){try{let{email:r}=await e.json();if(!r)return i.NextResponse.json({error:"Email is required"},{status:400});if(!l.find(e=>e.email===r))return i.NextResponse.json({message:"If your email is registered, you will receive a password reset link"},{status:200});let t=(0,u.uE)(r);return await (0,u.LS)(r,t),i.NextResponse.json({message:"Password reset email sent successfully"},{status:200})}catch(e){return console.error("Forgot password error:",e),i.NextResponse.json({error:"An error occurred while processing your request"},{status:500})}}let d=new o.AppRouteRouteModule({definition:{kind:a.x.APP_ROUTE,page:"/api/auth/forgot-password/route",pathname:"/api/auth/forgot-password",filename:"route",bundlePath:"app/api/auth/forgot-password/route"},resolvedPagePath:"/home/ubuntu/fixed-app/package/app/api/auth/forgot-password/route.ts",nextConfigOutput:"export",userland:s}),{requestAsyncStorage:c,staticGenerationAsyncStorage:w,serverHooks:m}=d,h="/api/auth/forgot-password/route";function g(){return(0,n.patchFetch)({serverHooks:m,staticGenerationAsyncStorage:w})}},6523:(e,r,t)=>{t.d(r,{Id:()=>l,Jw:()=>p,LS:()=>w,cl:()=>n,qL:()=>i,uE:()=>u,zk:()=>c});var s=t(4673);let o=new Map,a=new Map,n=e=>{let r=(0,s.Z)(),t=new Date;return t.setHours(t.getHours()+24),o.set(r,{email:e,expires:t}),r},i=e=>{let r=o.get(e);if(!r)return null;if(r.expires<new Date)return o.delete(e),null;let{email:t}=r;return o.delete(e),t},u=e=>{let r=(0,s.Z)(),t=new Date;return t.setHours(t.getHours()+1),a.set(r,{email:e,expires:t}),r},l=e=>{let r=a.get(e);return r?r.expires<new Date?(a.delete(e),null):r.email:null},p=e=>{a.delete(e)},d=async(e,r,t)=>(console.log(`Sending email to ${e}`),console.log(`Subject: ${r}`),console.log(`Body: ${t}`),!0),c=async(e,r)=>{let t=`${process.env.NEXT_PUBLIC_APP_URL||"http://localhost:3000"}/auth/verify-email?token=${r}`,s=`
+    Please verify your email address by clicking the link below:
+    
+    ${t}
+    
+    This link will expire in 24 hours.
+    
+    If you did not create an account, you can safely ignore this email.
+  `;return await d(e,"Verify your email address",s)},w=async(e,r)=>{let t=`${process.env.NEXT_PUBLIC_APP_URL||"http://localhost:3000"}/auth/reset-password?token=${r}`,s=`
+    You requested to reset your password. Please click the link below to set a new password:
+    
+    ${t}
+    
+    This link will expire in 1 hour.
+    
+    If you did not request a password reset, you can safely ignore this email.
+  `;return await d(e,"Reset your password",s)}}};var r=require("../../../../webpack-runtime.js");r.C(e);var t=e=>r(r.s=e),s=r.X(0,[276,547],()=>t(349));module.exports=s})();

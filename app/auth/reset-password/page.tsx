@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -20,7 +20,8 @@ const resetPasswordSchema = z.object({
   path: ['confirmPassword'],
 });
 
-export default function ResetPasswordPage() {
+// Component that uses useSearchParams
+function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
@@ -200,5 +201,26 @@ export default function ResetPasswordPage() {
         </Card>
       </div>
     </div>
+  );
+}
+
+// Loading fallback component
+function ResetPasswordLoading() {
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 flex items-center justify-center p-4">
+      <div className="w-full max-w-md text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto"></div>
+        <p className="text-white mt-4">Loading reset password form...</p>
+      </div>
+    </div>
+  );
+}
+
+// Main component that wraps the form in a Suspense boundary
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={<ResetPasswordLoading />}>
+      <ResetPasswordForm />
+    </Suspense>
   );
 }

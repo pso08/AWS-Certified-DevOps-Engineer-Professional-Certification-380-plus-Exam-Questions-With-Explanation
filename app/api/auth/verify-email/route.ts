@@ -26,6 +26,9 @@ const users: User[] = [
   }
 ];
 
+// Remove force-dynamic to allow static export
+// export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
