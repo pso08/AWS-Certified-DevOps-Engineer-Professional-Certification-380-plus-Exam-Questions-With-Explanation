@@ -115,7 +115,7 @@
       "id": "10",
       "question": "The operation and development department wants a place where it can show both the operation system and application logs. What should you do to activate this service using AWS? (Choose 2)",
       "options": {
-        "A": "and C",
+        "A": "Using AWS CloudFormation, create a CloudWatch Log. Log groups and send the operating system and application logs of interest using the CloudWatch logs agent",
         "B": "Using AWS CloudWatch and configuration management, set up remote logging to send events through UDP packets to CloudTrail",
         "C": "Using configuration management, set up remote logging to send events to Amazon Kinesis and insert these into Amazon cloud search or Amazon RedShift, depending on the available analytic tool",
         "D": "Using AWS CloudFormation, merge the application logs with the operating system logs, and use IAM roles to allow both teams to have access to view console output from Amazon EC2"
