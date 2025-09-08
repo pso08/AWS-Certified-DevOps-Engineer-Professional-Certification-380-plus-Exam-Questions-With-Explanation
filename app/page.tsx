@@ -14,7 +14,19 @@ export default function Home() {
           </p>
         </header>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8 max-w-7xl mx-auto">
+          <div className="bg-slate-800/50 p-8 rounded-lg border border-slate-700 shadow-xl">
+            <h2 className="text-2xl font-bold mb-4">Copilot Status</h2>
+            <p className="text-slate-300 mb-6">
+              View your learning progress, study streaks, performance analytics, and achievements in your AWS DevOps journey.
+            </p>
+            <Link href="/copilot-status" className="block">
+              <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white">
+                View Status
+              </Button>
+            </Link>
+          </div>
+
           <div className="bg-slate-800/50 p-8 rounded-lg border border-slate-700 shadow-xl">
             <h2 className="text-2xl font-bold mb-4">Practice Quiz</h2>
             <p className="text-slate-300 mb-6">
