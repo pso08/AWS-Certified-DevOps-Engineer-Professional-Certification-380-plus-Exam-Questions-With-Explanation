@@ -7,6 +7,7 @@ An interactive quiz application to help prepare for the AWS Certified DevOps Eng
 - **Interactive Quiz**: Test your knowledge with real exam-style questions
 - **Detailed Explanations**: Learn from comprehensive explanations for each question
 - **Progress Tracking**: Monitor your performance and identify areas for improvement
+- **Copilot Status**: View your comprehensive learning dashboard with progress analytics, study streaks, and achievements
 - **Study Materials**: Access downloadable resources to enhance your preparation
 
 ## Technology Stack
@@ -45,6 +46,19 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+
+### Copilot Status
+
+The Copilot Status feature provides a comprehensive dashboard to answer "What is my Copilot status?" by showing:
+
+- **Learning Level**: From "Getting Started" to "Expert" based on accuracy and study consistency
+- **Study Streaks**: Track daily study habits and maintain learning momentum
+- **Progress Analytics**: View accuracy rates, questions attempted, and completion status
+- **Achievement System**: Earn badges for milestones like completing your first quiz or maintaining study streaks
+- **Performance Insights**: Identify strong domains and areas that need improvement
+- **Quick Actions**: Direct links to continue your learning journey across different modes
+
+Access your Copilot Status dashboard at `/copilot-status` or click the "View Status" button on the homepage.
 
 ### Building for Production
 
@@ -100,6 +114,7 @@ This application is configured for deployment to Cloudflare Pages. See [CLOUDFLA
 aws-devops-quiz-app/
 ├── app/                  # Next.js app directory
 │   ├── quiz/             # Quiz page
+│   ├── copilot-status/   # Copilot Status dashboard page
 │   ├── download/         # Download resources page
 │   ├── globals.css       # Global styles
 │   ├── layout.tsx        # Root layout
